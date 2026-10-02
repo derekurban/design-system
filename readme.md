@@ -6,29 +6,42 @@ The central idea is **chaos settling into order**. Complicated things look rando
 
 ## Using it in a project
 
-This repository is the source of truth. Projects pin a published version and upgrade on purpose. Changes go through issues and pull requests; see `CONTRIBUTING.md`.
+This repository is the source of truth, and it is distributed from GitHub only (it is not on npm). Each project pins a release tag and upgrades on purpose. Nothing is edited in a consuming project and copied back: changes go through issues and pull requests here (see `CONTRIBUTING.md`).
+
+### Install
 
 ```sh
-npm install @derekurban/design-system@^0.1.0
-# or straight from GitHub, no npm account needed
 npm install github:derekurban/design-system#v0.1.0
 ```
+
+npm fetches the tagged commit and builds `dist/` during install. The dependency appears in `package.json` as `"@derekurban/design-system": "github:derekurban/design-system#v0.1.0"`. Every release on the [releases page](https://github.com/derekurban/design-system/releases) also has the built package attached as a `.tgz`, which installs without building: `npm install https://github.com/derekurban/design-system/releases/download/v0.1.0/derekurban-design-system-0.1.0.tgz`.
 
 ```js
 import '@derekurban/design-system/styles.css'; // tokens, fonts, base styles
 import { Button, Card, Mark } from '@derekurban/design-system';
 ```
 
-Without a build step, link the stylesheet from a CDN:
-
-```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@derekurban/design-system@0.1/dist/styles.css">
-```
-
 - React 18 or later is a peer dependency.
+- Set `data-theme="light"`, `"dark"` or `"system"` on `<html>` (see Themes).
 - `Icon` reads Lucide from `window.lucide`; load the Lucide script once per page (see Iconography).
 - Logos and raw token files are importable from `@derekurban/design-system/assets/*` and `/tokens/*`.
-- Versions follow semver: patch for fixes and token tweaks, minor for additions, and breaking changes are marked in the changelog. Before 1.0.0, breaking changes bump the minor version, so pin with `~0.1.0` if you want only fixes.
+- Each component has a `.d.ts` with its props and a `.prompt.md` with usage notes in `components/<group>/`.
+
+Without a build step, link the stylesheet for a tag straight from GitHub through jsDelivr:
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/derekurban/design-system@v0.1.0/styles.css">
+```
+
+### Upgrading
+
+1. See what changed: [`CHANGELOG.md`](CHANGELOG.md) or the [releases page](https://github.com/derekurban/design-system/releases). To get notified, use **Watch → Custom → Releases** on the repository.
+2. Install the new tag: `npm install github:derekurban/design-system#v0.2.0`.
+3. Check the project in light and dark before committing the bump.
+
+Versions follow semver. Patch releases are fixes and token tweaks, minor releases add things, and breaking changes are marked with **⚠ BREAKING CHANGES** in the changelog. Before 1.0.0 a breaking change bumps the minor version, so read the changelog closely when going from `0.1.x` to `0.2.0`. A Git tag is an exact pin; npm ranges like `^0.1.0` don't apply.
+
+To change the system itself, open an issue and a pull request here, then upgrade the project to the release that includes it.
 
 ## Sources
 
@@ -145,7 +158,7 @@ The dotted D and a dot-field texture were the first mark. The bracket logo repla
 
 ## Components
 
-The source defines no component library, so this is an authored standard set sized to the brand. All are in `window.DerekUrbanDesignSystem_3bae67`.
+The source defines no component library, so this is an authored standard set sized to the brand. All are exported from `@derekurban/design-system` (see `src/index.js`). The cards and examples in this repository load them from the generated `_ds_bundle.js` as `window.DerekUrbanDesignSystem_3bae67`.
 
 - **Actions** (`components/actions/`): Button, IconButton
 - **Forms** (`components/forms/`): Input, Select, Checkbox, Radio, Switch, SegmentedControl
@@ -174,13 +187,13 @@ Intentional additions (no counterpart in the source):
 
 ## Index
 
-The Design System tab is organised into sections, loosely following the categories in Jakub Krehel's interface skills: Brand, Color, Typography, Layout, Surfaces, Motion, Data, Accessibility, Writing, Components, Examples.
+The guideline cards are organised into sections, loosely following the categories in Jakub Krehel's interface skills: Brand, Color, Typography, Layout, Surfaces, Motion, Data, Accessibility, Writing, Components, Examples.
 
 - `styles.css` — entry point; `@import`s only.
 - `tokens/` — `fonts.css`, `colors.css` (both themes + semantic aliases), `typography.css`, `spacing.css`, `depth.css`, `motion.css`, `base.css`.
 - `assets/fonts/` — Albert Sans 300–600, Wix Madefor Text 400–600 (WOFF2, OFL).
-- `assets/logos/` — D mark (on-light, on-dark, mono), dot field, wordmark, lockup, favicon.
-- `guidelines/brand/` — mark, lockup, favicon, dot field.
+- `assets/logos/` — bracket logo (on-light, on-dark, mono), site logo (on-light, on-dark, mono), wordmark, lockup, favicon.
+- `guidelines/brand/` — logo, site logo, lockup, favicon.
 - `guidelines/color/` — palette cards for neutrals, accent and status (each token in both themes on its own ground, OKLCH + hex, purpose, aliases; read live from the CSS via `palette.js`), and **Color in use**, a light/dark sample with the rules.
 - `guidelines/type/` — families, display, titles, body, type in use.
 - `guidelines/layout/` — spacing scale.
@@ -194,6 +207,8 @@ The Design System tab is organised into sections, loosely following the categori
 - `guidelines/audit.md` — review against Jakub Krehel's interface skills: what was fixed, deliberate departures, what's open.
 - `SKILL.md` — Agent Skill entry point.
 - `src/index.js`, `src/index.d.ts` — package entry: every component, with types.
-- `npm run build` — builds `dist/index.js` and `dist/styles.css` (fonts included) with esbuild. `npm run check` (`.github/scripts/check.sh`) — fails CI if a component is incomplete or unexported.
+- `npm run build` — builds `dist/index.js` and `dist/styles.css` (fonts included) with esbuild; runs automatically when a project installs from GitHub. `npm run check` (`.github/scripts/check.sh`) — fails CI if a component is incomplete or unexported.
+- `_ds_bundle.js`, `_ds_manifest.json`, `_adherence.oxlintrc.json` — generated by the design tool for the cards; don't hand-edit.
 - `.github/` — CI, PR title check, release automation, issue and PR templates, code owners.
+- `CHANGELOG.md` — what changed in each release, written by the release automation.
 - `CONTRIBUTING.md` — how changes and releases move through the repo.

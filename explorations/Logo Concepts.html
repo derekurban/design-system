@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html data-theme="light"><head><meta charset="utf-8">
+<meta name="design_doc_mode" content="canvas">
+<title>Logo concepts</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+body{margin:0;background:transparent}
+a{color:var(--accent-text)}a:hover{color:var(--ink)}
+section{position:absolute;left:0;top:0;padding:48px;display:grid;grid-template-columns:repeat(4,400px);gap:32px}
+.opt{background:var(--bg);border-radius:18px;box-shadow:0 0 0 1px var(--line);overflow:hidden;display:flex;flex-direction:column}
+.hd{display:flex;align-items:baseline;gap:10px;padding:20px 22px 6px}
+.badge{font:var(--font-label);color:var(--ink-secondary);background:var(--sunk);border-radius:6px;padding:4px 8px}
+.name{font:var(--font-subheading);letter-spacing:var(--tracking-subheading);color:var(--ink)}
+.desc{font:var(--font-small);color:var(--ink-secondary);padding:0 22px 18px;text-wrap:pretty;min-height:66px}
+.pair{display:grid;grid-template-columns:1fr 1fr}
+.pane{position:relative;height:200px;display:flex;align-items:center;justify-content:center}
+.pane.lt{background:var(--surface)}.pane.dk{background:#141414}
+.pane>svg{width:112px;height:112px}
+.sm{position:absolute;left:12px;bottom:12px;display:flex;gap:10px;align-items:flex-end}
+.sm svg{display:block}
+.anim{margin-left:auto;font:var(--font-caption);color:var(--ink-tertiary)}
+#turn7 .pane>svg,#turn7 .pane>svg path,#turn8 .pane>svg path{transform-box:view-box;transform-origin:50% 50%}
+.an-draw:hover .pane>svg .sq{stroke-dasharray:1;animation:k-draw 900ms var(--ease-in-out) 120ms both}
+.an-draw:hover .pane>svg .bl{animation:k-inL var(--duration-slow) var(--ease-settle) both}
+.an-draw:hover .pane>svg .br{animation:k-closeR 520ms var(--ease-settle) 900ms both}
+.an-close:hover .pane>svg .bl{animation:k-wideL 640ms var(--ease-settle) both}
+.an-close:hover .pane>svg .br{animation:k-wideR 640ms var(--ease-settle) 80ms both}
+.an-wiggle:hover .pane>svg .sq{animation:k-wiggle 760ms var(--ease-out) both}
+.an-pop:hover .pane>svg{animation:k-pop 560ms var(--ease-settle) both}
+.an-redraw:hover .pane>svg .sq{stroke-dasharray:1;animation:k-redraw 1100ms var(--ease-in-out) both}
+.an-comet:hover .pane>svg .sq{animation:k-comet 900ms var(--ease-in-out)}
+.an-comet:hover .pane>svg .br{animation:k-flash 420ms var(--ease-out) 820ms both}
+.an-topple:hover .pane>svg .br{transform-origin:82% 82%;animation:k-topple 720ms var(--ease-settle) both}
+.an-topple:hover .pane>svg .bl{transform-origin:18% 82%;animation:k-toppleL 720ms var(--ease-settle) 60ms both}
+.an-breathe:hover .pane>svg .sq{animation:k-breathe 1000ms var(--ease-in-out) both}
+.an-stagger:hover .pane>svg .bl{animation:k-up var(--duration-slow) var(--ease-out) both}
+.an-stagger:hover .pane>svg .sq{animation:k-up var(--duration-slow) var(--ease-out) 160ms both}
+.an-stagger:hover .pane>svg .br{animation:k-up var(--duration-slow) var(--ease-out) 320ms both}
+.an-rise:hover .pane>svg .sq{stroke-dasharray:1;animation:k-rise 820ms var(--ease-settle) both}
+.an-ink:hover .pane>svg .sq{animation:k-ink 900ms var(--ease-out) both}
+.an-ink:hover .pane>svg .bl,.an-ink:hover .pane>svg .br{animation:k-ink 600ms var(--ease-out) both}
+.an-settle:hover .pane>svg .sq{animation:k-settle 900ms var(--ease-settle) both}
+@keyframes k-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes k-inL{from{transform:translateX(-8px);opacity:0}to{transform:none;opacity:1}}
+@keyframes k-closeR{0%{transform:translateX(10px);stroke-opacity:.3}60%{transform:translateX(-1.5px)}100%{transform:none;stroke-opacity:1}}
+@keyframes k-wideL{from{transform:translateX(-16px)}to{transform:none}}
+@keyframes k-wideR{from{transform:translateX(16px)}to{transform:none}}
+@keyframes k-wiggle{0%{transform:none}15%{transform:rotate(-9deg) scale(1.04)}35%{transform:rotate(7deg)}55%{transform:rotate(-4deg)}75%{transform:rotate(2deg)}100%{transform:none}}
+@keyframes k-pop{0%{transform:scale(.86)}55%{transform:scale(1.05)}100%{transform:none}}
+@keyframes k-redraw{0%{stroke-dashoffset:0}42%{stroke-dashoffset:-1}42.01%{stroke-dashoffset:1}100%{stroke-dashoffset:0}}
+@keyframes k-comet{0%{stroke-dasharray:.22 2;stroke-dashoffset:.22}100%{stroke-dasharray:.22 2;stroke-dashoffset:-1}}
+@keyframes k-flash{0%{stroke-width:6}40%{stroke-width:9}100%{stroke-width:6}}
+@keyframes k-topple{0%{transform:rotate(-28deg)}100%{transform:none}}
+@keyframes k-toppleL{0%{transform:rotate(-14deg)}100%{transform:none}}
+@keyframes k-breathe{0%{transform:none}25%{transform:scale(1.08,1.55)}50%{transform:scale(.97,.7)}75%{transform:scale(1.02,1.15)}100%{transform:none}}
+@keyframes k-up{from{transform:translateY(6px);opacity:0}to{transform:none;opacity:1}}
+@keyframes k-rise{from{transform:translate(-12px,12px);stroke-dashoffset:1;opacity:.2}to{transform:none;stroke-dashoffset:0;opacity:1}}
+@keyframes k-ink{from{stroke-width:.6}}
+@keyframes k-settle{0%{transform:rotate(-38deg) scale(1.7);opacity:.25}100%{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){#turn7 .pane>svg,#turn7 .pane>svg *,#turn8 .pane>svg *{animation:none!important}}
+#turn6 .pane>svg path{transform-box:view-box}
+#turn6 .opt:hover .pane>svg .sq{stroke-dasharray:1;animation:lc-draw 900ms var(--ease-in-out) 120ms both}
+#turn6 .opt:hover .pane>svg .sqg{animation:lc-wipe 900ms var(--ease-in-out) 120ms both}
+#turn6 .opt:hover .pane>svg .bl{animation:lc-bl var(--duration-slow) var(--ease-settle) both}
+#turn6 .opt:hover .pane>svg .br{animation:lc-br 520ms var(--ease-settle) 900ms both}
+@keyframes lc-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes lc-wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes lc-bl{from{transform:translateX(-8px);opacity:0}to{transform:none;opacity:1}}
+@keyframes lc-br{0%{transform:translateX(10px);stroke-opacity:.3}60%{transform:translateX(-1.5px)}100%{transform:none;stroke-opacity:1}}
+@media (prefers-reduced-motion:reduce){#turn6 .opt:hover .pane>svg *{animation:none!important}}
+.outcome{position:absolute;left:48px;top:48px;width:1120px;box-sizing:border-box;background:var(--bg);border-radius:18px;box-shadow:0 0 0 1px var(--line);padding:28px 32px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px 32px;font:var(--font-body);color:var(--ink)}
+.outcome h1{grid-column:1/-1;margin:0;font:var(--font-heading);letter-spacing:var(--tracking-heading);display:flex;align-items:center;gap:12px}
+.outcome .st{font:var(--font-label);border-radius:6px;padding:4px 10px;background:var(--sunk);color:var(--ink-secondary)}
+.outcome .st.done{background:var(--accent-subtle,var(--sunk));color:var(--accent-text)}
+.outcome dt{font:var(--font-label);color:var(--ink-tertiary);padding-top:2px}
+.outcome dd{margin:0;text-wrap:pretty;max-width:72ch}
+.outcome dd p{margin:0 0 6px}.outcome code{font-size:.92em}
+.opt{position:relative}
+.opt>.verdict{position:absolute;top:18px;right:18px;z-index:2;font:var(--font-label);border-radius:999px;padding:4px 11px;border:1px solid;white-space:nowrap}
+.v-win{background:var(--accent-subtle);color:var(--accent-text);border-color:var(--accent-line)}
+.v-fwd{background:var(--warning-subtle);color:var(--warning);border-color:var(--warning-line)}
+.v-draft{background:var(--info-subtle);color:var(--info);border-color:var(--info-line,var(--line))}
+.v-out{background:var(--danger-subtle);color:var(--danger);border-color:var(--danger-line)}
+.opt.is-win{box-shadow:0 0 0 2px var(--accent-strong)}
+.opt.is-out .pane,.opt.is-out .big,.opt.is-out .marks{opacity:.55}
+.opt .hd{padding-right:150px}
+.outcome .legend{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;align-items:center;font:var(--font-caption);color:var(--ink-tertiary)}
+.outcome .legend .verdict{position:static;font:var(--font-label);border-radius:999px;padding:3px 10px;border:1px solid}
+</style>
+</head><body>
+<header class="outcome" data-screen-label="Outcome"><h1>Logo concepts <span class="st done">Resolved, shipped</span></h1>
+<dt>Question</dt><dd>A clean, minimal mark about chaos turning into order, or technology and people.</dd>
+<dt>Explored</dt><dd>Eight rounds, newest at the top. 1–3: 36 open concepts. 4: variations on bracket and squiggle. 5: bracket types (square chosen). 6–8: squiggle types; round 7 also tried 12 hover animations.</dd>
+<dt>Outcome</dt><dd><p><a href="#8c">8c Looser</a> became the <strong>Default logo</strong>: a loose scribble between square brackets, the closing bracket in green. Files are <code>assets/logos/logo-on-light.svg</code>, <code>logo-on-dark.svg</code> and <code>logo-mono.svg</code>. It has a “Default logo” card in the Brand section and a “The logo” section in the readme.</p><p>The animation is Draw: the left bracket fades in, the scribble draws, then the green bracket closes from the right. The other round 7 animations were not used.</p></dd>
+<dt>Next</dt><dd>Sub-logos and the site logo build on this mark. See <a href="Sub-logos.html">Sub-logos</a>.</dd>
+<div class="legend">Key <span class="verdict v-win">Winner</span><span class="verdict v-fwd">Led forward</span><span class="verdict v-draft">Draft</span><span class="verdict v-out">Not chosen</span></div>
+</header>
+<section id="turn8" style="top:580px"></section>
+<section id="turn7" style="top:1820px"></section>
+<section id="turn6" style="top:3060px"></section>
+<section id="turn5" style="top:4300px"></section>
+<section id="turn4" style="top:5540px"></section>
+<section id="turn3" style="top:6780px"></section>
+<section id="turn2" style="top:8020px"></section>
+<section id="turn1" style="top:9260px"></section>
+<script>
+const T = { light: { ink: '#1b1b1b', acc: '#456938' }, dark: { ink: '#ebebeb', acc: '#84a479' } };
+const f = n => n.toFixed(2);
+const pathOf = pts => 'M' + pts.map(p => f(p[0]) + ' ' + f(p[1])).join(' L');
+const line = (d, c, w = 7) => `<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"></path>`;
+const dot = (x, y, r, c) => `<circle cx="${f(x)}" cy="${f(y)}" r="${r}" fill="${c}"></circle>`;
+
+const MARKS = [
+  { id: '1a', name: 'Topple', desc: 'Your pick from the dot fields, cut to five strokes. Each one leans a little less, until the green one stands.',
+    draw: ({ ink, acc }) => [-26, -16, -8, -3, 0].map((a, i) => `<rect x="${42 + i * 12 - 4}" y="22" width="8" height="62" rx="4" fill="${i === 4 ? acc : ink}" transform="rotate(${a} ${42 + i * 12} 84)"></rect>`).join('') },
+  { id: '1b', name: 'Sort', desc: 'A sort caught halfway through. The left is still in any order; the right is in sequence, rising to the green bar.',
+    draw: ({ ink, acc }) => [44, 22, 58, 30, 48, 64, 80].map((h, i) => `<rect x="${10 + i * 11.6}" y="${88 - h}" width="8" height="${h}" rx="2" fill="${i === 6 ? acc : ink}"></rect>`).join('') },
+  { id: '1c', name: 'Settle', desc: 'One line that swings wide and calms, the way a pendulum or a busy mind does, coming to rest on the green dot.',
+    draw: ({ ink, acc }) => { const p = []; for (let i = 0; i <= 120; i++) { const t = i / 120; p.push([10 + 66 * t, 50 - 30 * Math.exp(-3.4 * t) * Math.sin(2 * Math.PI * 2.6 * t)]); } return line(pathOf(p), ink, 6) + dot(86, 50, 6, acc); } },
+  { id: '1d', name: 'Many to one', desc: 'Lines that start anywhere and arrive at the same point. Scattered inputs, one conclusion.',
+    draw: ({ ink, acc }) => [[12, 18], [26, 40], [10, 60], [22, 84], [40, 14]].map(([x, y]) => line(`M${x} ${y} L82 52`, ink, 5)).join('') + dot(82, 52, 7, acc) },
+  { id: '1e', name: 'Untangle', desc: 'A single stroke with one knot in it that pulls straight and ends on the green dot. A problem worked through.',
+    draw: ({ ink, acc }) => line('M10 72 C10 34 50 26 50 50 C50 68 26 70 28 52 C30 38 52 50 64 50 L76 50', ink, 6) + dot(87, 50, 6, acc) },
+  { id: '1f', name: 'Growth rings', desc: 'Rings that start as a hand-drawn circle and tighten into a square, around a green core. Organic outside, built inside.',
+    draw: ({ ink, acc }) => [[38, 2, 2.2], [28, 3.4, 0.8], [18, 7, 0]].map(([r0, p, w]) => { const pts = []; for (let i = 0; i <= 200; i++) { const t = i / 200 * Math.PI * 2, c = Math.cos(t), s = Math.sin(t), r = r0 + w * (Math.sin(3 * t + 0.6) + 0.6 * Math.sin(5 * t + 2)); pts.push([50 + r * Math.sign(c) * Math.pow(Math.abs(c), 2 / p), 50 + r * Math.sign(s) * Math.pow(Math.abs(s), 2 / p)]); } return line(pathOf(pts) + 'Z', ink, 5); }).join('') + `<rect x="44" y="44" width="12" height="12" rx="1.5" fill="${acc}"></rect>` },
+  { id: '1g', name: 'Two hands', desc: 'Half a circle drawn smooth, half built from pixels. The same shape made by a person and by a machine.',
+    draw: ({ ink, acc }) => { let s = `<path d="M48 16 A34 34 0 0 0 48 84 Z" fill="${ink}"></path>`; const g = 8.5; for (let gx = 0; gx < 4; gx++) for (let gy = 0; gy < 8; gy++) { const cx = 52 + gx * g + g / 2, cy = 16 + gy * g + g / 2; if (Math.hypot(cx - 50, cy - 50) <= 34) s += `<rect x="${f(52 + gx * g + 0.6)}" y="${f(16 + gy * g + 0.6)}" width="${f(g - 1.2)}" height="${f(g - 1.2)}" fill="${gx === 3 && gy === 4 ? acc : ink}"></rect>`; } return s; } },
+  { id: '1h', name: 'Grain', desc: 'Lines like wood grain on the left that run out into ruled lines on the right. Natural material, straightened by use.',
+    draw: ({ ink, acc }) => [24, 41, 58, 75].map((y0, k) => { const p = []; for (let i = 0; i <= 100; i++) { const x = 10 + 78 * i / 100, u = Math.max(0, 1 - (x - 10) / 50); p.push([x, y0 + 7 * u * u * Math.sin(x / 7 + k * 1.3)]); } return line(pathOf(p), k === 3 ? acc : ink, 5); }).join('') },
+  { id: '1i', name: 'Tally', desc: 'Four strokes by hand, slightly uneven, and a fifth that groups them. The oldest way people turned events into data.',
+    draw: ({ ink, acc }) => [[24, 20, 23, 80], [38, 18, 39, 82], [52, 21, 51, 79], [66, 19, 67, 81]].map(([a, b, c, d]) => line(`M${a} ${b} L${c} ${d}`, ink, 7)).join('') + line('M12 66 L80 32', acc, 7) },
+  { id: '1j', name: 'Cairn', desc: 'Found stones stacked into balance. Order made by hand from uneven parts, with the last one placed on top.',
+    draw: ({ ink, acc }) => `<rect x="14" y="70" width="70" height="16" rx="8" fill="${ink}"></rect><rect x="28" y="52" width="46" height="15" rx="7.5" fill="${ink}" transform="rotate(-3 51 59)"></rect><rect x="30" y="35" width="32" height="14" rx="7" fill="${ink}" transform="rotate(4 46 42)"></rect>` + dot(49, 23, 8, acc) },
+  { id: '1k', name: 'Sprout', desc: 'A grid of dots with one leaf growing out of it. Structure as the ground that something living comes up from.',
+    draw: ({ ink, acc }) => { let s = ''; for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) s += dot(30 + c * 20, 46 + r * 18, 5, ink); return s + line('M50 46 L50 30', acc, 5) + `<path d="M50 30 C50 16 62 10 76 12 C76 26 64 32 50 30 Z" fill="${acc}"></path>`; } },
+  { id: '1l', name: 'Close', desc: 'Your D, drawn as one stroke that stops short. The green dot closes it: the last piece that makes the whole thing resolve.',
+    draw: ({ ink, acc }) => line('M26 60 L26 16 L48 16 A34 34 0 0 1 48 84 L40 84', ink, 8) + dot(26, 84, 6, acc) }
+];
+
+const MARKS2 = [
+  { id: '2a', name: 'Signal', desc: 'A noisy wave that cleans up into a pure one, like a radio finding its station. Static on the left, a clear tone on the right.',
+    draw: ({ ink, acc }) => { const p = []; for (let i = 0; i <= 160; i++) { const t = i / 160, x = 10 + 72 * t, n = Math.max(0, 1 - t * 1.6); p.push([x, 50 - 16 * Math.sin(2 * Math.PI * 2.5 * t) - 14 * n * (Math.sin(t * 97) * 0.6 + Math.sin(t * 211) * 0.4)]); } return line(pathOf(p), ink, 5) + dot(88, 50, 6, acc); } },
+  { id: '2b', name: 'Focus', desc: 'Two soft rings and one sharp green point. A blur coming into focus, the way an idea does.',
+    draw: ({ ink, acc }) => `<circle cx="44" cy="44" r="24" fill="${ink}" fill-opacity="0.12"></circle><circle cx="50" cy="50" r="16" fill="${ink}" fill-opacity="0.22"></circle>` + dot(56, 56, 9, acc) },
+  { id: '2c', name: 'Path', desc: 'Footsteps across open ground that settle into a straight line. Wandering first, then direction.',
+    draw: ({ ink, acc }) => [[14, 30], [24, 52], [34, 36], [46, 56], [58, 48], [70, 52], [82, 50]].map(([x, y], i) => i === 6 ? dot(x, y, 6, acc) : dot(x, y, 5, ink)).join('') },
+  { id: '2d', name: 'Weave', desc: 'Loose threads on the left pass into a woven square on the right. Fibre becomes fabric: many strands, one structure.',
+    draw: ({ ink, acc }) => { let s = ''; [30, 44, 58, 72].forEach((y, k) => { const p = []; for (let i = 0; i <= 60; i++) { const x = 10 + 40 * i / 60, u = 1 - i / 60; p.push([x, y + 8 * u * Math.sin(i / 6 + k * 2)]); } s += line(pathOf(p) + ` L86 ${y}`, ink, 4.5); }); [58, 72, 86].forEach((x, k) => s += line(`M${x} 24 L${x} 78`, k === 2 ? acc : ink, 4.5)); return s; } },
+  { id: '2e', name: 'Crystal', desc: 'Free particles meeting a lattice and locking into it. The moment a solution becomes a solid.',
+    draw: ({ ink, acc }) => { let s = ''; for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) s += dot(50 + c * 14, 50 + r * 14, 4.5, r === 2 && c === 2 ? acc : ink); [[20, 22], [34, 30], [18, 46], [30, 62], [44, 22]].forEach(([x, y]) => s += dot(x, y, 4.5, ink).replace('/>', '').replace('></circle>', ' fill-opacity="0.45"></circle>')); return s; } },
+  { id: '2f', name: 'Fingerprint', desc: 'Concentric arcs of a fingerprint that become precise rings toward the centre. A person’s mark read by a machine.',
+    draw: ({ ink, acc }) => [36, 27, 18].map((r, k) => { const p = []; for (let i = 0; i <= 120; i++) { const t = Math.PI * (0.15 + 1.7 * i / 120), w = (2 - k) * 1.6 * Math.sin(5 * t + k); p.push([50 + (r + w) * Math.cos(t + Math.PI / 2), 52 + (r + w) * Math.sin(t + Math.PI / 2)]); } return line(pathOf(p), ink, 4.5); }).join('') + dot(50, 52, 6, acc) },
+  { id: '2g', name: 'Breath', desc: 'A rough rhythm that evens into a steady one, like breathing slowing down. Calm reached, not imposed.',
+    draw: ({ ink, acc }) => [20, 38, 26, 18, 16, 16].map((h, i) => `<rect x="${12 + i * 12}" y="${50 - h}" width="7" height="${h * 2}" rx="3.5" fill="${ink}"></rect>`).join('') + `<rect x="84" y="34" width="7" height="32" rx="3.5" fill="${acc}"></rect>` },
+  { id: '2h', name: 'Bracket', desc: 'A hand-drawn scribble held between two exact brackets. Mess, contained and given a frame.',
+    draw: ({ ink, acc }) => line('M26 18 L16 18 L16 82 L26 82', ink, 6) + line('M74 18 L84 18 L84 82 L74 82', acc, 6) + line('M30 58 C34 30 44 70 50 44 C55 26 60 66 70 42', ink, 5) },
+  { id: '2i', name: 'Pixel leaf', desc: 'A leaf with a smooth edge on one side and a stepped, pixel edge on the other. Something living, partly rendered.',
+    draw: ({ ink, acc }) => { let s = `<path d="M50 14 C24 30 22 66 50 86 Z" fill="${ink}"></path>`; const steps = [[50, 14, 6], [50, 22, 12], [50, 30, 16], [50, 38, 20], [50, 46, 20], [50, 54, 18], [50, 62, 16], [50, 70, 12], [50, 78, 6]]; steps.forEach(([x, y, w], i) => s += `<rect x="${x + 1.5}" y="${y + 0.75}" width="${w - 1.5}" height="6.5" fill="${i === 4 ? acc : ink}"></rect>`); return s; } },
+  { id: '2j', name: 'Orbit', desc: 'An off-centre loop that tightens into a circular orbit around a green centre. Wobble first, then a stable path.',
+    draw: ({ ink, acc }) => { const p = []; for (let i = 0; i <= 260; i++) { const t = i / 260 * Math.PI * 4.2, r = 36 - 18 * (i / 260), e = 8 * (1 - i / 260); p.push([50 + r * Math.cos(t) + e, 50 + r * 0.82 * Math.sin(t) - e * 0.5]); } return line(pathOf(p), ink, 4) + dot(50, 50, 7, acc); } },
+  { id: '2k', name: 'Stack', desc: 'Loose blocks above, placed blocks below. A pile turning into a wall, one course at a time.',
+    draw: ({ ink, acc }) => `<rect x="22" y="16" width="20" height="10" rx="2" fill="${ink}" transform="rotate(-18 32 21)"></rect><rect x="54" y="20" width="20" height="10" rx="2" fill="${ink}" transform="rotate(12 64 25)"></rect><rect x="38" y="38" width="20" height="10" rx="2" fill="${ink}" transform="rotate(-6 48 43)"></rect><rect x="16" y="58" width="32" height="12" rx="2" fill="${ink}"></rect><rect x="52" y="58" width="32" height="12" rx="2" fill="${ink}"></rect><rect x="16" y="74" width="68" height="12" rx="2" fill="${ink}"></rect><rect x="52" y="58" width="32" height="12" rx="2" fill="${acc}"></rect>` },
+  { id: '2l', name: 'Cursor', desc: 'A text cursor with a hand-drawn underline. The blinking point where a person and a machine meet.',
+    draw: ({ ink, acc }) => `<rect x="46" y="18" width="8" height="52" rx="2" fill="${acc}"></rect>` + line('M18 82 C32 76 44 86 58 80 C68 76 76 80 84 78', ink, 5) }
+];
+const MARKS3 = [
+  { id: '3a', name: 'Level', desc: 'Four strokes at different tilts settling to flat, top to bottom. The last one lies true, in green.',
+    draw: ({ ink, acc }) => [[-10, 18], [6, 36], [-3, 54], [0, 72]].map(([a, y], i) => `<rect x="20" y="${y}" width="60" height="8" rx="4" fill="${i === 3 ? acc : ink}" transform="rotate(${a} 50 ${y + 4})"></rect>`).join('') },
+  { id: '3b', name: 'Align', desc: 'Five dots in a column, scattered sideways above, lined up below. One axis found.',
+    draw: ({ ink, acc }) => [[36, 16], [62, 32], [44, 48], [52, 64], [50, 82]].map(([x, y], i) => dot(x, y, 6, i === 4 ? acc : ink)).join('') + `<rect x="49" y="12" width="2" height="76" fill="${ink}" fill-opacity="0.18"></rect>` },
+  { id: '3c', name: 'Snap', desc: 'A loose hand-drawn square and the exact square it snaps to. Intent, then precision, one on top of the other.',
+    draw: ({ ink, acc }) => line('M24 30 C30 22 66 20 74 26 C82 34 78 70 72 76 C64 82 30 80 24 72 C18 62 20 38 24 30 Z', ink, 4.5) + `<rect x="34" y="34" width="32" height="32" rx="3" fill="${acc}"></rect>` },
+  { id: '3d', name: 'Drop', desc: 'A drop and the rings it makes, cut to two arcs. A single cause spreading into order.',
+    draw: ({ ink, acc }) => line('M22 66 A28 12 0 0 0 78 66', ink, 5) + line('M10 66 A40 18 0 0 0 90 66', ink, 4).replace('stroke-width="4"', 'stroke-width="4" stroke-opacity="0.45"') + `<path d="M50 18 C50 18 64 36 64 46 A14 14 0 0 1 36 46 C36 36 50 18 50 18 Z" fill="${acc}"></path>` },
+  { id: '3e', name: 'Step', desc: 'Topple turned into a staircase. Uneven risers at the bottom, even at the top, ending on a green landing.',
+    draw: ({ ink, acc }) => `<path d="M14 86 L14 76 L30 76 L30 62 L42 62 L42 52 L56 52 L56 40 L70 40 L70 28" fill="none" stroke="${ink}" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"></path>` + line('M70 28 L86 28', acc, 6) },
+  { id: '3f', name: 'Thread', desc: 'A loose thread pulled through the eye of a needle, straight on the other side. One small act of order.',
+    draw: ({ ink, acc }) => `<rect x="58" y="16" width="10" height="68" rx="5" fill="none" stroke="${acc}" stroke-width="5"></rect>` + line('M12 64 C20 30 32 80 42 48 C48 32 54 50 63 50 L90 50', ink, 4.5) },
+  { id: '3g', name: 'Half grid', desc: 'A grid of dots, loose on the left half and exact on the right. The simplest version of the dot field.',
+    draw: ({ ink, acc }) => { const off = [[-2.5, 2], [2, -2.5], [-2, -1.5], [1.5, 2.5], [2.5, 1], [-1.5, -2.5]]; let s = ''; for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) { const o = c < 2 ? off[(r * 2 + c) % 6] : [0, 0]; s += dot(23 + c * 18 + o[0] * (2 - c), 32 + r * 18 + o[1] * (2 - c), 5, r === 2 && c === 3 ? acc : ink); } return s; } },
+  { id: '3h', name: 'Hand and rule', desc: 'A wavering hand-drawn line meeting a ruler-straight one at a green point. Where the two kinds of making join.',
+    draw: ({ ink, acc }) => line('M10 66 C20 40 30 80 40 52 C45 38 50 56 50 50', ink, 6.5) + line('M50 50 L90 50', ink, 6.5) + dot(50, 50, 9, acc) },
+  { id: '3i', name: 'Aperture', desc: 'A circle drawn by hand, and inside it a perfect one in green. Looking through the noise to what is clear.',
+    draw: ({ ink, acc }) => line('M50 14 C72 13 87 30 86 50 C86 72 70 87 49 86 C28 86 14 70 14 49 C15 30 30 15 52 15', ink, 5) + dot(50, 50, 14, acc) },
+  { id: '3j', name: 'Count', desc: 'Dots added one per column, in order: one, two, three, four. Nothing random, every step visible.',
+    draw: ({ ink, acc }) => { let s = ''; for (let c = 0; c < 4; c++) for (let r = 0; r <= c; r++) s += dot(22 + c * 19, 80 - r * 19, 6, c === 3 && r === 3 ? acc : ink); return s; } },
+  { id: '3k', name: 'Ripple D', desc: 'Your D, drawn as three nested layers. The outer one is faint, the next is firm, the core is solid green.',
+    draw: ({ ink, acc }) => { const D = (x0, h, w) => `M${x0} ${50 - h} L${x0 + w} ${50 - h} A${h} ${h} 0 0 1 ${x0 + w} ${50 + h} L${x0} ${50 + h} Z`; return line(D(18, 34, 22), ink, 4.5).replace('stroke-width="4.5"', 'stroke-width="4.5" stroke-opacity="0.35"') + line(D(28, 22, 16), ink, 4.5) + `<path d="${D(38, 10, 8)}" fill="${acc}"></path>`; } },
+  { id: '3l', name: 'Keel', desc: 'A wave above, a straight keel below, and the green line between them where the boat sits steady.',
+    draw: ({ ink, acc }) => { const p = []; for (let i = 0; i <= 80; i++) { const x = 12 + 76 * i / 80; p.push([x, 34 + 7 * Math.sin(x / 7)]); } return line(pathOf(p), ink, 5) + line('M12 54 L88 54', acc, 6) + line('M24 72 L76 72', ink, 6); } }
+];
+// Bracket helpers: square bracket of height 2h centred at (x, 50), arm length a, opening toward dir (1 = right, -1 = left).
+const brk = (x, hh, a, dir) => `M${x + dir * a} ${50 - hh} L${x} ${50 - hh} L${x} ${50 + hh} L${x + dir * a} ${50 + hh}`;
+const curly = (x, hh, dir) => { const d = dir; return `M${x + 8 * d} ${50 - hh} C${x} ${50 - hh} ${x} ${50 - hh + 6} ${x} ${50 - hh / 2} C${x} ${50 - 6} ${x} ${50 - 2} ${x - 7 * d} 50 C${x} ${50 + 2} ${x} ${50 + 6} ${x} ${50 + hh / 2} C${x} ${50 + hh - 6} ${x} ${50 + hh} ${x + 8 * d} ${50 + hh}`; };
+const angle = (x, hh, dir) => `M${x + 14 * dir} ${50 - hh} L${x} 50 L${x + 14 * dir} ${50 + hh}`;
+const SQ = 'M30 58 C34 30 44 70 50 44 C55 26 60 66 70 42';
+const wave = (x0, x1, y, A, cyc, decay) => { const p = []; for (let i = 0; i <= 120; i++) { const t = i / 120, a = A * (decay ? Math.pow(1 - t, decay) : 1); p.push([x0 + (x1 - x0) * t, y - a * Math.sin(2 * Math.PI * cyc * t)]); } return pathOf(p); };
+const MARKS4 = [
+  { id: '4a', name: 'Original', desc: 'The mark from 2h, tightened: equal brackets, one scribble in the middle, the closing bracket in green.',
+    draw: ({ ink, acc }) => line(brk(18, 32, 10, 1), ink, 6) + line(brk(82, 32, 10, -1), acc, 6) + line(SQ, ink, 5.5) },
+  { id: '4b', name: 'Resolve', desc: 'The scribble calms as it crosses the space and leaves as a straight line into the green bracket.',
+    draw: ({ ink, acc }) => line(brk(18, 32, 10, 1), ink, 6) + line(brk(82, 32, 10, -1), acc, 6) + line(wave(28, 76, 50, 18, 2.2, 1.6), ink, 5.5) },
+  { id: '4c', name: 'Open', desc: 'Only the closing bracket. The scribble is still arriving; the structure is waiting for it.',
+    draw: ({ ink, acc }) => line(brk(78, 32, 12, -1), acc, 6.5) + line('M14 62 C20 26 34 76 42 42 C48 22 56 64 66 50', ink, 5.5) },
+  { id: '4d', name: 'Code', desc: 'Curly braces, the way code wraps a block. Human mess inside a machine’s grammar.',
+    draw: ({ ink, acc }) => line(curly(20, 32, 1), ink, 5.5) + line(curly(80, 32, -1), acc, 5.5) + line('M32 56 C36 34 44 66 50 46 C55 32 60 62 68 44', ink, 5) },
+  { id: '4e', name: 'Angle', desc: 'Angle brackets, as in a tag or a chevron. Sharper and more technical, with the same scribble held inside.',
+    draw: ({ ink, acc }) => line(angle(14, 30, 1), ink, 6) + line(angle(86, 30, -1), acc, 6) + line('M32 56 C36 34 44 66 50 46 C55 32 60 62 68 44', ink, 5) },
+  { id: '4f', name: 'Overflow', desc: 'The scribble is bigger than its frame and spills past the brackets above and below. Contained, not tamed.',
+    draw: ({ ink, acc }) => line(brk(22, 24, 9, 1), ink, 6) + line(brk(78, 24, 9, -1), acc, 6) + line('M34 70 C30 14 46 86 50 36 C54 10 64 84 66 30', ink, 5) },
+  { id: '4g', name: 'Selection', desc: 'Brackets as a selection on a screen: two corners marking the scribble, like a drawing being picked up by a tool.',
+    draw: ({ ink, acc }) => line('M16 34 L16 18 L32 18', ink, 6) + line('M84 66 L84 82 L68 82', acc, 6) + line(SQ, ink, 5.5) },
+  { id: '4h', name: 'Square', desc: 'A full square frame with one side green. The scribble has a room of its own.',
+    draw: ({ ink, acc }) => `<path d="M80 16 L16 16 L16 84 L80 84" fill="none" stroke="${ink}" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"></path>` + line('M84 16 L84 84', acc, 6) + line(SQ, ink, 5.5) },
+  { id: '4i', name: 'Dot', desc: 'The scribble ends in a green dot instead of a green bracket. The point where the thought lands.',
+    draw: ({ ink, acc }) => line(brk(18, 32, 10, 1), ink, 6) + line(brk(82, 32, 10, -1), ink, 6) + line('M30 60 C34 32 44 70 50 46 C54 32 58 56 62 50', ink, 5.5) + dot(66, 48, 6, acc) },
+  { id: '4j', name: 'Uneven', desc: 'The left bracket is drawn by hand, the right one ruled. The scribble sits between the hand and the machine.',
+    draw: ({ ink, acc }) => line('M28 19 C22 17 18 18 17 22 C15 40 19 62 16 79 C17 82 22 83 28 81', ink, 6) + line(brk(82, 32, 10, -1), acc, 6) + line(SQ, ink, 5.5) },
+  { id: '4k', name: 'Pixel', desc: 'The scribble starts as a loose line and becomes square pixels as it nears the green bracket.',
+    draw: ({ ink, acc }) => line(brk(18, 32, 10, 1), ink, 6) + line(brk(82, 32, 10, -1), acc, 6) + line('M28 58 C32 32 40 68 46 46', ink, 5.5) + [[50, 40], [56, 46], [62, 46], [68, 52]].map(([x, y]) => `<rect x="${x - 2.75}" y="${y - 2.75}" width="5.5" height="5.5" fill="${ink}"></rect>`).join('') },
+  { id: '4l', name: 'Monogram', desc: 'The opening bracket doubles as the stem of your D; the green arc closes it around the scribble.',
+    draw: ({ ink, acc }) => line(brk(20, 32, 18, 1), ink, 6) + line('M38 18 A32 32 0 0 1 38 82', acc, 6) + line('M30 56 C34 34 42 66 48 46 C53 30 58 60 64 46', ink, 5) }
+];
+// Squiggles, all spanning roughly x 32–68 around y 50.
+const SQG = {
+  scribble: 'M32 58 C36 34 44 68 50 46 C55 30 60 64 68 44',
+  wave: wave(32, 68, 50, 9, 2, 0),
+  loop: 'M30 58 C38 58 42 40 36 38 C30 36 32 56 44 54 C54 52 54 38 48 38 C42 38 46 56 58 54 C64 53 68 46 70 42',
+  zigzag: 'M32 56 L38 42 L44 58 L50 40 L56 58 L62 42 L68 54',
+  s: 'M36 62 C36 46 64 54 64 38',
+  shaky: 'M32 54 C34 44 38 46 40 50 C42 56 46 58 48 50 C50 40 54 38 56 46 C58 54 62 58 64 50 C65 46 66 44 68 46',
+};
+// Hand-drawn brackets: same geometry as the ruled ones, with a waver.
+const handSq = (x, dir) => `M${x + 12 * dir} ${21} C${x + 6 * dir} ${16} ${x + dir} ${17} ${x - dir} ${23} C${x - 5 * dir} ${38} ${x + 4 * dir} ${56} ${x - 3 * dir} ${78} C${x - 2 * dir} ${83} ${x + 5 * dir} ${84} ${x + 12 * dir} ${80}`;
+const handCurly = (x, dir) => `M${x + 11 * dir} 20 C${x - 2 * dir} 15 ${x + 3 * dir} 28 ${x - 2 * dir} 36 C${x - 4 * dir} 43 ${x + 2 * dir} 48 ${x - 9 * dir} 51 C${x + 3 * dir} 54 ${x - 4 * dir} 60 ${x + 2 * dir} 69 C${x + 4 * dir} 78 ${x - 3 * dir} 83 ${x + 10 * dir} 81`;
+const paren = (x, dir) => `M${x + 6 * dir} 18 C${x - 8 * dir} 30 ${x - 8 * dir} 70 ${x + 6 * dir} 82`;
+const handParen = (x, dir) => `M${x + 4 * dir} 20 C${x - 8 * dir} 27 ${x - 7 * dir} 40 ${x - 9 * dir} 52 C${x - 10 * dir} 66 ${x - 2 * dir} 76 ${x + 8 * dir} 81`;
+const B = { sq: x => brk(x, 32, 10, x < 50 ? 1 : -1), curly: x => curly(x, 32, x < 50 ? 1 : -1), paren: x => paren(x, x < 50 ? 1 : -1),
+  handSq: x => handSq(x, x < 50 ? 1 : -1), handCurly: x => handCurly(x, x < 50 ? 1 : -1), handParen: x => handParen(x, x < 50 ? 1 : -1) };
+const bs = (L, R, sq, sw = 5.5) => ({ ink, acc }) => line(B[L](L === 'paren' || L === 'handParen' ? 22 : 18), ink, 6) + line(B[R](R === 'paren' || R === 'handParen' ? 78 : 82), acc, 6) + line(SQG[sq], ink, sw);
+const MARKS5 = [
+  { id: '5a', name: 'Square, scribble', desc: 'The base: ruled square brackets, a loose scribble.', draw: bs('sq', 'sq', 'scribble') },
+  { id: '5b', name: 'Square, loops', desc: 'The scribble as cursive loops, like handwriting before it becomes letters.', draw: bs('sq', 'sq', 'loop', 5) },
+  { id: '5c', name: 'Square, zigzag', desc: 'A sharp zigzag: nervous energy, jagged but still contained.', draw: bs('sq', 'sq', 'zigzag', 5) },
+  { id: '5d', name: 'Code, wave', desc: 'Curly braces around an even wave. Calmer, closer to a signal than a scribble.', draw: bs('curly', 'curly', 'wave') },
+  { id: '5e', name: 'Code, scribble', desc: 'Curly braces with the loose scribble: code wrapping something it can’t quite parse.', draw: bs('curly', 'curly', 'scribble', 5) },
+  { id: '5f', name: 'Code, loops', desc: 'Curly braces holding cursive loops. Handwriting inside syntax.', draw: bs('curly', 'curly', 'loop', 4.5) },
+  { id: '5g', name: 'Uneven, scribble', desc: 'Hand-drawn left bracket, ruled right. The scribble crosses from the person’s side to the machine’s.', draw: bs('handSq', 'sq', 'scribble') },
+  { id: '5h', name: 'Uneven, shaky', desc: 'Hand-drawn left bracket, ruled right, with a small shaky line between: less gesture, more tremor.', draw: bs('handSq', 'sq', 'shaky', 5) },
+  { id: '5i', name: 'Uneven code', desc: 'A hand-drawn brace on the left and a ruled one on the right. The two ideas you liked, combined.', draw: bs('handCurly', 'curly', 'scribble', 5) },
+  { id: '5j', name: 'Uneven code, wave', desc: 'The same uneven braces with an even wave. The machine side sets the rhythm.', draw: bs('handCurly', 'curly', 'wave', 5) },
+  { id: '5k', name: 'Parentheses', desc: 'Round brackets, softer than square: an aside, a thought held gently.', draw: bs('paren', 'paren', 'scribble', 5) },
+  { id: '5l', name: 'Uneven parentheses', desc: 'Hand-drawn left parenthesis, ruled right, around a single S stroke. The quietest version.', draw: bs('handParen', 'paren', 's', 6) }
+];
+const fn = (x0, x1, g, n = 160) => { const p = []; for (let i = 0; i <= n; i++) { const t = i / n; p.push([x0 + (x1 - x0) * t, 50 - g(t)]); } return pathOf(p); };
+const anim = (s, cls) => s.replace('<path ', `<path class="${cls}" pathLength="1" `);
+const sqm = (d, sw = 5.5) => ({ ink, acc }) => anim(line(brk(18, 32, 10, 1), ink, 6), 'bl') + anim(line(brk(82, 32, 10, -1), acc, 6), 'br') + anim(line(d, ink, sw), 'sq');
+const MARKS6 = [
+  { id: '6a', name: 'Scribble', desc: 'The current loose scribble, for reference. Hover any card to see it draw.', draw: sqm(SQG.scribble) },
+  { id: '6b', name: 'Settling', desc: 'Big swings that shrink to a flat line before the green bracket. Chaos to order in one stroke.',
+    draw: sqm(fn(30, 70, t => 16 * Math.pow(1 - t, 1.4) * Math.sin(2 * Math.PI * 2.4 * t))) },
+  { id: '6c', name: 'Building', desc: 'The reverse: a calm start that grows into energy. Something starting up.',
+    draw: sqm(fn(30, 70, t => 15 * Math.pow(t, 1.5) * Math.sin(2 * Math.PI * 2.4 * t))) },
+  { id: '6d', name: 'Single wave', desc: 'One clean crest and trough. The simplest squiggle that still reads as one.',
+    draw: sqm(fn(32, 68, t => 11 * Math.sin(2 * Math.PI * t)), 6) },
+  { id: '6e', name: 'Tilde', desc: 'A short, soft tilde: approximately, roughly, close enough. Small and quiet.',
+    draw: sqm(fn(36, 64, t => 6 * Math.sin(2 * Math.PI * t)), 6.5) },
+  { id: '6f', name: 'Heartbeat', desc: 'A pulse line: flat, one spike, flat again. A sign of life inside the machine.',
+    draw: sqm('M30 52 L40 52 L44 60 L50 32 L55 64 L59 50 L70 50', 5) },
+  { id: '6g', name: 'Handwriting', desc: 'A run of cursive that looks like a word but isn’t. Human output, before it’s legible.',
+    draw: sqm('M29 56 C32 56 34 42 37 44 C40 46 36 58 40 58 C44 58 44 46 47 46 C50 46 48 58 52 58 C56 58 55 40 58 40 C61 40 58 58 62 58 C66 58 67 50 71 48', 4.5) },
+  { id: '6h', name: 'Spring', desc: 'A coil seen from the side. Stored energy, held between two fixed points.',
+    draw: sqm(fn(30, 70, t => 0, 2).replace(/.*/, '') + (() => { const p = []; for (let i = 0; i <= 240; i++) { const t = i / 240, a = 2 * Math.PI * 3 * t; p.push([32 + 34 * t + 5 * Math.cos(a + Math.PI) + 5, 50 - 12 * Math.sin(a)]); } return pathOf(p); })(), 4.5) },
+  { id: '6i', name: 'Lightning', desc: 'A sharp bolt between the brackets. A sudden idea, caught and held.',
+    draw: sqm('M36 32 L52 50 L46 52 L64 68', 6) },
+  { id: '6j', name: 'Doodle', desc: 'A spiral that unwinds into a line. The doodle in a margin while you think.',
+    draw: sqm((() => { const p = []; for (let i = 0; i <= 200; i++) { const t = i / 200, a = 2 * Math.PI * 1.6 * t, r = 2 + 12 * t; p.push([46 + r * Math.cos(a), 50 + r * Math.sin(a)]); } p.push([68, 50]); return pathOf(p); })(), 4.5) },
+  { id: '6k', name: 'Noise', desc: 'A jittery, uneven line like a seismograph or raw sensor data. Unfiltered signal.',
+    draw: sqm('M30 50 L34 46 L37 54 L40 42 L43 58 L46 38 L49 60 L52 44 L55 56 L58 47 L61 53 L64 49 L70 50', 4) },
+  { id: '6l', name: 'Thick to thin', desc: 'The scribble drawn like a brush stroke, heavy where it starts and fine where it ends.',
+    draw: ({ ink, acc }) => { const p = []; for (let i = 0; i <= 120; i++) { const t = i / 120; p.push([32 + 36 * t, 50 - 12 * Math.sin(2 * Math.PI * 1.6 * t + 0.4)]); } let s = ''; for (let i = 0; i < p.length - 1; i++) s += `<path d="M${f(p[i][0])} ${f(p[i][1])} L${f(p[i + 1][0])} ${f(p[i + 1][1])}" stroke="${ink}" stroke-width="${f(8 - 6 * i / 120)}" stroke-linecap="round" fill="none"></path>`; return anim(line(brk(18, 32, 10, 1), ink, 6), 'bl') + anim(line(brk(82, 32, 10, -1), acc, 6), 'br') + `<g class="sqg">${s}</g>`; } }
+];
+const rising = (base, g) => fn(32, 68, t => (base[0] + (base[1] - base[0]) * t) * -1 + 50 + g(t));
+const MARKS7 = [
+  { id: '7a', anim: 'draw', name: 'Rising scribble', desc: 'Two loose bends climbing from bottom left to top right.', d: 'M32 62 C36 44 42 66 48 50 C53 38 58 54 68 38' },
+  { id: '7b', anim: 'close', name: 'Lazy S', desc: 'A long, relaxed S that climbs. The calmest of the set.', d: 'M32 64 C42 66 40 48 50 50 C60 52 58 36 68 36' },
+  { id: '7c', anim: 'wiggle', name: 'One loop', desc: 'A single loop halfway up, like a pen catching on the page.', d: 'M31 64 C38 60 41 48 47 43 C55 37 60 54 50 55 C41 56 45 39 58 38 C63 37 66 36 69 35' },
+  { id: '7d', anim: 'pop', name: 'Settling', desc: 'Wide bends at the bottom that calm as they rise.', d: rising([62, 38], t => 9 * Math.pow(1 - t, 1.3) * Math.sin(2 * Math.PI * 1.8 * t)) },
+  { id: '7e', anim: 'redraw', name: 'Stutter', desc: 'A small stutter, then one long swoop up. Hesitation, then commitment.', d: 'M32 60 C34 55 37 62 39 58 C44 50 46 66 54 52 C60 42 62 40 68 37' },
+  { id: '7f', anim: 'comet', name: 'Hesitant', desc: 'Climbs in uneven steps, pausing twice before it reaches the top.', d: 'M32 62 C38 60 37 53 42 55 C47 58 46 46 52 46 C58 46 56 40 68 36' },
+  { id: '7g', anim: 'topple', name: 'Dip and climb', desc: 'Drops first, then climbs out. The low point before things improve.', d: 'M32 54 C35 66 45 66 49 55 C52 46 57 38 68 38' },
+  { id: '7h', anim: 'breathe', name: 'Uneven waves', desc: 'Three bends of different sizes on a rising line. Nothing repeats.', d: rising([62, 38], t => 7 * Math.sin(2 * Math.PI * (1.4 * t + 0.6 * t * t)) * (0.6 + 0.6 * Math.sin(5 * t))) },
+  { id: '7i', anim: 'stagger', name: 'Overshoot', desc: 'Climbs past where it’s going, then comes back to land.', d: 'M32 64 C40 60 42 40 52 34 C58 31 60 42 68 38' },
+  { id: '7j', anim: 'rise', name: 'Tight then loose', desc: 'Two quick wiggles at the start, then a long free tail upward.', d: 'M32 60 C35 52 39 64 43 56 C46 50 49 58 52 52 C56 44 62 40 69 37' },
+  { id: '7k', anim: 'ink', name: 'Swash', desc: 'One calligraphic swash with a hooked start, like a signature flourish turned upward.', d: 'M36 56 C30 62 30 68 38 64 C46 60 50 50 54 46 C58 42 62 40 68 38' },
+  { id: '7l', anim: 'settle', name: 'Scrawl', desc: 'The busiest one that still reads clean: three uneven bends, tilted up.', d: 'M31 62 C34 50 38 64 42 54 C45 46 48 60 52 50 C55 42 60 52 64 42 C66 38 68 38 69 37' }
+];
+// Variations of the original scribble (6a): two peaks, two troughs, ending on an upswing.
+const MARKS8 = [
+  { id: '8a', name: 'Original', desc: 'The scribble from 6a, unchanged, for reference.', d: 'M32 58 C36 34 44 68 50 46 C55 30 60 64 68 44' },
+  { id: '8b', name: 'Lifted', desc: 'Same strokes, tilted so it climbs from bottom left to top right.', d: 'M32 64 C36 40 44 70 50 48 C55 32 60 58 68 36' },
+  { id: '8c', name: 'Looser', desc: 'Wider swings with softer turns. More gesture, same rhythm.', d: 'M31 60 C35 26 45 74 50 46 C55 22 62 70 69 40' },
+  { id: '8d', name: 'Tighter', desc: 'Smaller swings, so the brackets read as the bigger shape.', d: 'M33 56 C37 40 44 62 50 48 C55 36 60 60 67 45' },
+  { id: '8e', name: 'Uneven peaks', desc: 'The first peak tall, the second short. Less mirrored, more handwritten.', d: 'M32 60 C35 26 44 70 50 48 C55 38 60 62 68 42' },
+  { id: '8f', name: 'Growing', desc: 'The second peak taller than the first, so the energy builds toward the green bracket.', d: 'M32 58 C36 42 44 66 50 48 C55 22 61 66 68 38' },
+  { id: '8g', name: 'Lean forward', desc: 'Each stroke leans right, like quick handwriting.', d: 'M32 60 C40 32 42 68 51 46 C59 28 58 66 69 42' },
+  { id: '8h', name: 'Lean back', desc: 'Each stroke leans left. Slower, more deliberate.', d: 'M33 58 C33 34 46 68 49 46 C52 30 63 64 67 44' },
+  { id: '8i', name: 'Sharper turns', desc: 'The turns pinch tighter at the top, like a pen pressed hard.', d: 'M32 58 C34 40 38 34 40 40 C44 54 46 62 50 46 C53 34 56 30 58 38 C61 52 64 58 68 44' },
+  { id: '8j', name: 'Longer tail', desc: 'The final stroke runs on and rises into the green bracket.', d: 'M31 58 C34 36 41 66 46 48 C51 32 56 60 62 46 C65 40 68 36 70 34' },
+  { id: '8k', name: 'Heavier', desc: 'The original scribble at the bracket’s weight, so the mark reads as one stroke family.', d: 'M32 58 C36 34 44 68 50 46 C55 30 60 64 68 44', sw: 6 },
+  { id: '8l', name: 'Lighter', desc: 'A finer line than the brackets. The squiggle reads as written, the brackets as built.', d: 'M32 58 C36 34 44 68 50 46 C55 30 60 64 68 44', sw: 4 }
+];
+MARKS8.forEach(m => { m.draw = sqm(m.d, m.sw); });
+const ANIM_NAMES = { draw: 'Draw', close: 'Close in', wiggle: 'Wiggle', pop: 'Pop', redraw: 'Redraw', comet: 'Trace', topple: 'Topple', breathe: 'Breathe', stagger: 'Stagger', rise: 'Rise', ink: 'Ink', settle: 'Settle' };
+MARKS7.forEach(m => { m.draw = sqm(m.d); });
+const svg = (m, theme, size) => `<svg viewBox="0 0 100 100"${size ? ` width="${size}" height="${size}"` : ''} role="img" aria-label="${m.name} mark">${m.draw(T[theme])}</svg>`;
+const cardL = m => `
+<div class="opt" id="${m.id}" data-screen-label="${m.id} ${m.name}">
+<div class="hd"><span class="badge">${m.id}</span><span class="name">${m.name}</span></div>
+<div class="desc">${m.desc}</div>
+<div class="pair"><div class="pane lt" data-theme="light">${svg(m, 'light')}<div class="sm">${svg(m, 'light', 32)}${svg(m, 'light', 16)}</div></div><div class="pane dk" data-theme="dark">${svg(m, 'dark')}<div class="sm">${svg(m, 'dark', 32)}${svg(m, 'dark', 16)}</div></div></div>
+</div>`;
+document.getElementById('turn8').innerHTML = MARKS8.map(cardL).join('');
+document.querySelectorAll('#turn8 .opt').forEach(el => { el.classList.add('an-draw'); el.querySelector('.hd').insertAdjacentHTML('beforeend', '<span class="anim">Hover · Draw</span>'); });
+document.getElementById('turn7').innerHTML = MARKS7.map(cardL).join('');
+document.querySelectorAll('#turn7 .opt').forEach((el, i) => { const m = MARKS7[i]; el.classList.add('an-' + m.anim); el.querySelector('.hd').insertAdjacentHTML('beforeend', `<span class="anim">Hover · ${ANIM_NAMES[m.anim]}</span>`); });
+document.getElementById('turn6').innerHTML = MARKS6.map(cardL).join('');
+document.getElementById('turn5').innerHTML = MARKS5.map(cardL).join('');
+document.getElementById('turn4').innerHTML = MARKS4.map(cardL).join('');
+document.getElementById('turn3').innerHTML = MARKS3.map(cardL).join('');
+document.getElementById('turn2').innerHTML = MARKS2.map(cardL).join('');
+document.getElementById('turn1').innerHTML = MARKS.map(cardL).join('');
+</script>
+
+<script>
+(() => {
+  const V = {"8c":"win","2h":"fwd","4d":"fwd","4j":"fwd","5a":"fwd","6a":"fwd","8a":"fwd"}, L = { win: 'Winner', fwd: 'Led forward', draft: 'Draft', out: 'Not chosen' };
+  const apply = () => document.querySelectorAll('section .opt[id]').forEach(el => {
+    if (el.querySelector(':scope>.verdict')) return;
+    const id = el.id, v = id in V ? V[id] : ({}[id[0]] ?? 'out');
+    if (!v) return;
+    el.classList.add('is-' + v);
+    el.insertAdjacentHTML('afterbegin', '<span class="verdict v-' + v + '">' + L[v] + '</span>');
+  });
+  apply(); setTimeout(apply, 300);
+})();
+</script>
+</body></html>

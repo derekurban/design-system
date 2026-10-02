@@ -1,0 +1,20 @@
+<!-- @dsCard group="Components" viewport="700x500" name="Data" subtitle="BarChart, LineChart, Sparkline, Stat. Accent emphasis by default, ink for a fully neutral chart; light and dark." -->
+<!DOCTYPE html>
+<html data-theme="light"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;padding:24px;background:var(--bg);color:var(--ink)}.cap{font:var(--font-caption);color:var(--ink-tertiary)}.lab{font:var(--font-label);color:var(--ink)}.hd{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px}.hd>div{display:flex;flex-direction:column;gap:2px}</style>
+</head><body data-theme="light"><div id="root"></div>
+<script type="text/babel">
+const { BarChart, LineChart, Sparkline, Stat, SegmentedControl } = window.DerekUrbanDesignSystem_3bae67;
+function DataCard(){const [em,setEm]=React.useState('accent');return (<div style={{display:'flex',flexDirection:'column',gap:20}}>
+<div style={{display:'flex',alignItems:'center',gap:12}}><SegmentedControl size="sm" options={[{value:'accent',label:'Accent emphasis'},{value:'ink',label:'Ink emphasis'}]} value={em} onChange={setEm} /><span className="cap">Ink keeps a chart neutral when another element carries the accent</span></div>
+<div style={{display:'grid',gridTemplateColumns:'minmax(0,1fr) minmax(0,1fr)',gap:24}}><BarChart height={140} emphasis={em} data={[18,22,19,27,24,31,26,29,34,30,37,46]} labels={['Jan','','Mar','','May','','Jul','','Sep','','Nov','']} /><LineChart height={140} emphasis={em} series={[12,14,13,17,16,19,18,22,21,24,23,27,26,29,31,34]} compare={[11,12,12,13,14,13,15,15,16,16,17,17,18,18,19,19]} endLabel="34" compareLabel="19" labels={['Jun','','','','','','','','','','','','','','','Sep']} /></div>
+<div style={{display:'grid',gridTemplateColumns:'repeat(3,minmax(0,1fr))',gap:24}}><Stat size="sm" label="Notes this month" value="318" delta="+12%" trend={[8,9,8,11,10,12,11,13,12,14,15,14,16]} /><Stat size="sm" label="Ideas linked" value="142" delta="+31%" trend={[3,4,4,5,6,6,7,8,9,9,11,12,14]} emphasis={em==='accent'} /><Stat size="sm" label="Revisit gap" value="4.2 days" delta="Down from 5.1" /></div>
+<div data-theme="dark" style={{margin:'0 -24px -24px',padding:24,display:'grid',gridTemplateColumns:'minmax(0,1fr) 180px',gap:24,alignItems:'center'}}><BarChart height={90} emphasis={em} data={[4,6,5,7,6,9,8,11,10,12,14,13,15,18,17,21]} /><Stat size="sm" label="Dark" value="21" delta="This week" trend={[4,6,5,7,9,8,11,12,14,15,18,21]} emphasis={em==='accent'} /></div>
+</div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<DataCard />);
+</script></body></html>

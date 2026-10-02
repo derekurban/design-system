@@ -1,0 +1,21 @@
+<!-- @dsCard group="Color" viewport="960x620" name="Palette · neutrals" subtitle="True gray, zero chroma. Each theme shown on its own ground; values read live from the tokens." -->
+<!DOCTYPE html>
+<html data-theme="light"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>body{margin:0;padding:24px;background:var(--bg);color:var(--ink)}
+.row{display:grid;grid-template-columns:190px minmax(0,1fr) 200px 200px}
+.row>.k,.row>.p{padding:10px 16px 10px 0;box-shadow:inset 0 -0.5px 0 var(--line)}
+.k{display:flex;flex-direction:column;gap:2px}.tk{font:500 13px/18px var(--font-body);color:var(--ink)}.al{font:var(--font-caption);color:var(--ink-tertiary)}
+.p{font:var(--font-caption);color:var(--ink-secondary);display:flex;align-items:center;text-wrap:pretty}
+.c{background:var(--surface);color:var(--ink-secondary);display:flex;align-items:center;gap:12px;padding:8px 16px;box-shadow:inset 0 -0.5px 0 var(--line)}
+.sw{flex-shrink:0;width:44px;height:30px;border-radius:var(--radius-sm);box-shadow:var(--ring-control)}
+.sw-t{display:flex;align-items:center;justify-content:center;font:500 15px/1 var(--font-title);background:var(--bg)}
+.v{display:flex;flex-direction:column;gap:1px;font:var(--font-caption);font-variant-numeric:tabular-nums;min-width:0}.v .hx{color:var(--ink-tertiary)}
+.head>.k,.head>.p{font:var(--font-caption);color:var(--ink-tertiary);padding-top:10px;display:flex;align-items:center;box-shadow:inset 0 -0.5px 0 var(--line-strong)}
+.head>.c{padding-top:10px;box-shadow:inset 0 -0.5px 0 var(--line-strong)}.th{font:var(--font-label);color:var(--ink)}
+.c:nth-child(3){border-radius:0}.fam>.k{flex-direction:row;align-items:baseline;gap:12px;padding-top:20px}.fn{font:500 15px/20px var(--font-title);letter-spacing:-0.01em;color:var(--ink)}.fr{font:var(--font-caption);color:var(--ink-tertiary)}
+.fam>.c{box-shadow:none}
+</style>
+<script src="palette.js"></script>
+</head><body data-theme="light"><div id="p"></div>
+<script>renderPalette(document.getElementById('p'),[["Surfaces","Where things sit",[["bg","Page background"],["surface","Cards, inputs, raised panels"],["sunk","Wells, hover fills, disabled fills"]]],["Lines","Structure without weight",[["line","Hairlines, dividers, gridlines"],["line-strong","Control outlines, chart baselines"]]],["Ink","Text and icons",[["ink","Primary text and icons","text"],["ink-secondary","Supporting text and descriptions","text"],["ink-tertiary","Captions, metadata, placeholders","text"]]],["Data","Charts",[["data-neutral","Default series: bars, segments, comparisons"]]]]);</script></body></html>

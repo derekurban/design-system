@@ -1,0 +1,25 @@
+name: Component request or change
+description: A new component, or a new prop, variant or behavior on an existing one.
+labels: [component]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Component
+      placeholder: Popover, or Button (new variant)
+    validations: { required: true }
+  - type: textarea
+    id: need
+    attributes:
+      label: Where it's needed
+      description: The project and screen that needs it. A real use, not a hypothetical.
+    validations: { required: true }
+  - type: textarea
+    id: why
+    attributes:
+      label: Why existing components don't cover it
+    validations: { required: true }
+  - type: textarea
+    id: sketch
+    attributes:
+      label: Sketch, screenshot or API idea

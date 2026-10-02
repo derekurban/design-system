@@ -1,0 +1,24 @@
+<!-- @dsCard group="Components" viewport="700x260" name="Mark" subtitle="Token-driven bracket logo with the draw-in; default and site variants" -->
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--bg)}.pane{padding:24px;display:flex;flex-direction:column;gap:16px;background:var(--bg);color:var(--ink)}.row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}</style>
+</head><body data-theme="light"><div id="root"></div>
+<script type="text/babel">
+const { Mark, Button } = window.DerekUrbanDesignSystem_3bae67;
+function App() {
+  const [k, setK] = React.useState(0);
+  const pane = theme => (
+    <div className="pane" data-theme={theme} style={{ height: 260, boxSizing: 'border-box', justifyContent: 'space-between' }}>
+      <div className="row" style={{ alignItems: 'flex-end', gap: 24 }}><Mark size={120} animate replayKey={k} /><Mark size={120} variant="site" animate replayKey={k} /><Mark size={32} /></div>
+      <div className="row">{theme === 'light' ? <Button size="sm" onClick={() => setK(k + 1)}>Replay draw-in</Button> : <span className="du-caption" style={{ color: 'var(--ink-tertiary)' }}>default · site · 32px</span>}</div>
+    </div>
+  );
+  return <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>{pane('light')}{pane('dark')}</div>;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script></body></html>

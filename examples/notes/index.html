@@ -1,0 +1,97 @@
+<!-- @dsCard group="Examples" viewport="1280x800" name="Notes tool" subtitle="A sample screen composed only from the system's components and tokens. Toggle dark in the sidebar." -->
+<!DOCTYPE html>
+<html data-theme="light"><head><meta charset="utf-8"><title>Notes · sample</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>html,body{margin:0;height:100%}body{background:var(--bg);color:var(--ink)}a{color:var(--accent-text)}a:hover{color:var(--ink)}#root{height:100%}</style>
+</head><body data-theme="light"><div id="root"></div>
+<script type="text/babel">
+const { LineChart, Mark, Button, IconButton, Icon, Input, Tabs, SegmentedControl, Card, Tag, Avatar, Menu, Toast, Tooltip, Switch } = window.DerekUrbanDesignSystem_3bae67;
+const THEMES = [['Memory', 42], ['Attention', 34], ['Habits', 26], ['Sleep', 20]];
+const NOTES = [
+  { title: 'Why I reread the same three books', body: 'Each time I return to them I notice a different sentence. The books did not change; what I was looking for did.', tags: ['Memory', 'Reading'], date: 'Sep 28', links: 6 },
+  { title: 'Walks make the hard problems smaller', body: 'Three of the last five ideas I kept came within twenty minutes of leaving the house. That is a pattern, not a rule.', tags: ['Attention', 'Walks'], date: 'Sep 26', links: 4 },
+  { title: 'Sleeping on a decision', body: 'When I wait a night, I change my mind about a third of the time. When I do not wait, I rarely revisit it at all.', tags: ['Sleep', 'Habits'], date: 'Sep 23', links: 3 },
+];
+function Chart() {
+  return <LineChart height={150} series={[12,14,13,17,16,19,18,22,21,24,23,27,26,29,31,34]} compare={[11,12,12,13,14,13,15,15,16,16,17,17,18,18,19,19]} labels={['Jun 8','','','','','','','','','','','','','','','Sep 21']} endLabel="34 this week" compareLabel="19 last year" label="Ideas linked per week" />;
+}
+function NoteCard({ n }) {
+  return (
+    <Card interactive padding="md" as="article">
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+        <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <h3 className="du-subheading" style={{ margin: 0, textWrap: 'balance' }}>{n.title}</h3>
+          <p className="du-small" style={{ margin: 0, color: 'var(--ink-secondary)' }}>{n.body}</p>
+        </div>
+        <Menu align="end" trigger={<IconButton label="More" size="sm"><Icon name="ellipsis" /></IconButton>} items={[{ label: 'Rename', icon: <Icon name="pencil" /> }, { label: 'Duplicate', icon: <Icon name="copy" />, shortcut: '⌘D' }, { type: 'divider' }, { label: 'Delete', icon: <Icon name="trash-2" />, danger: true }]} />
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 16 }}>
+        {n.tags.map(t => <Tag key={t} size="sm">{t}</Tag>)}
+        <span className="du-caption" style={{ marginLeft: 'auto', fontVariantNumeric: 'tabular-nums' }}>{n.links} links · {n.date}</span>
+      </div>
+    </Card>
+  );
+}
+function NotesApp() {
+  const [dark, setDark] = React.useState(false);
+  const [tab, setTab] = React.useState('notes');
+  const [range, setRange] = React.useState('Month');
+  const [theme, setTheme] = React.useState('Memory');
+  const [toasts, setToasts] = React.useState([]);
+  const n = React.useRef(0);
+  React.useEffect(() => { document.body.setAttribute('data-theme', dark ? 'dark' : 'light'); document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light'); }, [dark]);
+  const save = () => { const id = ++n.current; setToasts(ts => [...ts.slice(-1), id]); };
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '248px minmax(0,1fr)', height: '100%', background: 'var(--bg)' }}>
+      <aside style={{ display: 'flex', flexDirection: 'column', gap: 24, padding: '24px 20px', boxShadow: 'inset -0.5px 0 0 var(--line)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}><Mark size={28} animate /><span style={{ font: '500 16px/20px var(--font-title)', letterSpacing: '-0.01em' }}>Notes</span></div>
+        <Input size="sm" placeholder="Search notes" iconStart={<Icon name="search" />} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="du-caption">Themes</span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>{THEMES.map(([t]) => <Tag key={t} selected={theme === t} onClick={() => setTheme(t)}>{t}</Tag>)}</div>
+        </div>
+        <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <Switch checked={dark} onChange={setDark} label="Dark" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}><Avatar name="Derek Urban" size={32} /><div style={{ display: 'flex', flexDirection: 'column' }}><span className="du-label">Derek Urban</span><span className="du-caption">318 notes</span></div></div>
+        </div>
+      </aside>
+      <main style={{ overflow: 'auto', padding: '32px 40px', display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <header style={{ display: 'flex', alignItems: 'flex-end', gap: 16 }}>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <h1 className="du-title" style={{ margin: 0 }}>Patterns</h1>
+            <p className="du-small" style={{ margin: 0, color: 'var(--ink-secondary)' }}>Ideas you return to, grouped by what they share.</p>
+          </div>
+          <SegmentedControl options={['Week', 'Month', 'Year']} value={range} onChange={setRange} />
+          <Button variant="primary" iconStart={<Icon name="plus" />} onClick={save}>New note</Button>
+        </header>
+        <Tabs value={tab} onChange={setTab} items={[{ value: 'notes', label: 'Notes', count: 128 }, { value: 'patterns', label: 'Patterns', count: 14 }, { value: 'archive', label: 'Archive' }]} />
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1.4fr) minmax(0,1fr)', gap: 16 }}>
+          <Card>
+            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 16 }}><span className="du-label">Ideas linked per week</span><span className="du-caption">Last 16 weeks</span></div>
+            <Chart />
+          </Card>
+          <Card variant="sunk">
+            <span className="du-caption">Most revisited theme</span>
+            <div style={{ font: '300 40px/44px var(--font-title)', letterSpacing: '-0.025em', margin: '8px 0 4px' }}>{theme}</div>
+            <p className="du-small" style={{ margin: 0, color: 'var(--ink-secondary)' }}>{THEMES.find(t => t[0] === theme)[1]} notes this month. You come back to it most on weekday mornings.</p>
+            <div style={{ display: 'flex', gap: 8, marginTop: 20 }}>
+              <Button size="sm">See notes</Button>
+              <Tooltip content="Copy link"><IconButton label="Copy link" size="sm"><Icon name="link" /></IconButton></Tooltip>
+            </div>
+          </Card>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: 16 }}>{NOTES.map(x => <NoteCard key={x.title} n={x} />)}</div>
+      </main>
+      <div style={{ position: 'fixed', right: 24, bottom: 24, display: 'flex', flexDirection: 'column', gap: 8, zIndex: 40 }}>
+        {toasts.map(id => <Toast key={id} tone="success" title="Draft saved" description="Untitled note, just now." onDismiss={() => setToasts(ts => ts.filter(x => x !== id))} />)}
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<NotesApp />);
+</script></body></html>

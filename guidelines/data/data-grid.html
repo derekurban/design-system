@@ -1,0 +1,8 @@
+<!-- @dsCard group="Data" viewport="700x280" name="Activity grid" subtitle="Dots in five gray steps; today is the one accent dot. Click to replay." -->
+<!DOCTYPE html>
+<html data-theme="light"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>body{margin:0;padding:24px;background:var(--bg);color:var(--ink)}.cap{font:var(--font-caption);color:var(--ink-tertiary);font-variant-numeric:tabular-nums}.lab{font:var(--font-label);color:var(--ink)}.hd{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px}.hd>div{display:flex;flex-direction:column;gap:2px}</style>
+<script src="data-viz.js"></script>
+</head><body data-theme="light"><div class="hd"><div><span class="lab">Writing activity</span><span class="cap">Last 26 weeks</span></div><div style="flex-direction:row;align-items:center;gap:6px"><span class="cap">Less</span><svg width="9" height="9"><circle cx="4.5" cy="4.5" r="4.5" fill="var(--ink)" fill-opacity="0.08"></circle></svg><svg width="9" height="9"><circle cx="4.5" cy="4.5" r="4.5" fill="var(--ink)" fill-opacity="0.22"></circle></svg><svg width="9" height="9"><circle cx="4.5" cy="4.5" r="4.5" fill="var(--ink)" fill-opacity="0.42"></circle></svg><svg width="9" height="9"><circle cx="4.5" cy="4.5" r="4.5" fill="var(--ink)" fill-opacity="0.66"></circle></svg><svg width="9" height="9"><circle cx="4.5" cy="4.5" r="4.5" fill="var(--ink)" fill-opacity="0.9"></circle></svg><span class="cap">More</span></div></div><div id="c"></div>
+<script>const r=DUViz.grid(document.getElementById('c'),{weeks:26});DUViz.replayOnClick(document.getElementById('c'),r);</script></body></html>

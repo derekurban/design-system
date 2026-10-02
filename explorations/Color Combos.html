@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html data-theme="light"><head><meta charset="utf-8"><title>Color combos · exploration</title>
+<link rel="stylesheet" href="../styles.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../_ds_bundle.js"></script>
+<script src="color-combos.js"></script>
+<style>body{margin:0;background:var(--sunk);color:var(--ink)}
+.outcome{background:var(--bg);border-radius:18px;box-shadow:0 0 0 1px var(--line);padding:28px 32px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px 32px;font:var(--font-body);color:var(--ink)}
+.outcome h1{grid-column:1/-1;margin:0;font:var(--font-heading);letter-spacing:var(--tracking-heading);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.outcome .st{font:var(--font-label);border-radius:6px;padding:4px 10px;background:var(--sunk);color:var(--ink-secondary)}
+.outcome .st.done{background:var(--accent-subtle,var(--sunk));color:var(--accent-text)}
+.outcome dt{font:var(--font-label);color:var(--ink-tertiary);padding-top:2px}
+.outcome dd{margin:0;text-wrap:pretty;max-width:72ch}
+.outcome dd p{margin:0 0 6px}.outcome code{font-size:.92em}
+.verdict{font:var(--font-label);border-radius:999px;padding:3px 10px;border:1px solid;white-space:nowrap}
+.v-win{background:var(--accent-subtle);color:var(--accent-text);border-color:var(--accent-line)}
+.v-fwd{background:var(--warning-subtle);color:var(--warning);border-color:var(--warning-line)}
+.v-draft{background:var(--info-subtle);color:var(--info);border-color:var(--info-line,var(--line))}
+.v-out{background:var(--danger-subtle);color:var(--danger);border-color:var(--danger-line)}
+.outcome .legend{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;align-items:center;font:var(--font-caption);color:var(--ink-tertiary)}
+@media (max-width:760px){.outcome{grid-template-columns:1fr}}a{color:var(--accent-text);text-decoration-color:var(--accent-line);text-underline-offset:3px}a:hover{text-decoration-color:currentColor}</style>
+</head><body data-theme="light"><div id="root"></div>
+<script type="text/babel">
+const { Button, Icon, Input, Tag, SegmentedControl, Switch, Checkbox, Radio, Tabs, BarChart, Stat, Mark } = window.DerekUrbanDesignSystem_3bae67;
+const fam = (h, fill, fillC, textC, subC, extra) => ({ h, fill, fillC, textC, subC, ...extra });
+const STATUS = (sub = 0.026, extra) => ({ danger: fam(28, [0.5, 0.7], [0.15, 0.13], 0.15, sub, extra), warning: fam(70, [0.5, 0.7], [0.11, 0.1], 0.11, sub * 1.15, extra), info: fam(245, [0.5, 0.7], [0.09, 0.08], 0.09, sub * 0.8, extra) });
+const COMBOS = [
+  { id: '1', name: 'Deep moss', style: 'subtle',
+    note: 'The baseline. Deep moss (L 0.48, C 0.085) with white text in light; mid moss with dark text in dark.',
+    accent: fam(138, [0.48, 0.70], [0.085, 0.08], 0.085, 0.026, { onFill: ['light', 'dark'] }), ...STATUS() },
+  { id: '2', name: 'Forest', style: 'subtle',
+    note: 'Darker and a touch richer (L 0.42), with every colored text at 7:1. Crispest contrast; reads closer to forest.',
+    accent: fam(138, [0.42, 0.74], [0.09, 0.085], 0.09, 0.028, { onFill: ['light', 'dark'], textTarget: 7 }), ...STATUS(0.028, { textTarget: 7 }) },
+  { id: '3', name: 'Rich moss', style: 'subtle',
+    note: 'Same lightness as Deep moss, with chroma raised to 0.12. More pop on the button, switch and chart without getting lighter.',
+    accent: fam(138, [0.50, 0.72], [0.12, 0.11], 0.11, 0.032, { onFill: ['light', 'dark'] }), ...STATUS(0.03) },
+  { id: '4', name: 'Mid-tone', style: 'subtle',
+    note: 'One brighter mid-green (L 0.66) in both themes with dark text on fills. Friendly; marks sit near the 3:1 edge on white.',
+    accent: fam(138, [0.66, 0.70], [0.11, 0.105], 0.09, 0.028), ...STATUS() },
+  { id: '5', name: 'Leaf', style: 'subtle',
+    note: 'The most saturated option (C 0.14) at a mid lightness, dark text on fills. Maximum pop while staying moss, not lime.',
+    accent: fam(138, [0.62, 0.72], [0.14, 0.13], 0.11, 0.034), ...STATUS(0.03) },
+  { id: '6', name: 'Same deep fill', style: 'subtle',
+    note: 'One deep moss with white text in both themes. The button looks identical in light and dark; in dark it is quieter, and marks use the lighter text tone to stay visible.',
+    accent: fam(138, [0.48, 0.48], [0.095, 0.095], 0.085, 0.026, { onFill: ['light', 'light'] }), ...STATUS(), darkMarksFromText: true },
+  { id: '7', name: 'Deep moss, vivid tints', style: 'subtle',
+    note: 'Deep moss with stronger tinted backgrounds for success, warnings, info and selected states. The color comes from the surfaces as well as the marks.',
+    accent: fam(138, [0.48, 0.70], [0.085, 0.08], 0.085, 0.05, { onFill: ['light', 'dark'] }), ...STATUS(0.05) },
+];
+const VERDICT = { '1': 'win' }, VL = { win: 'Winner', fwd: 'Led forward', draft: 'Draft', out: 'Not chosen' };
+const verdictOf = id => VERDICT[id] || 'out';
+const BUILT = Object.fromEntries(COMBOS.map(c => { const b = buildCombo(c); if (c.darkMarksFromText) b.dark.vars['--accent-strong'] = b.dark.vars['--accent-text']; return [c.id, b]; }));
+const textVar = k => k === 'accent' ? 'var(--accent-text)' : 'var(--' + k + ')';
+const fillVar = k => k === 'accent' ? 'var(--accent)' : 'var(--' + k + '-fill)';
+
+function Note({ tone, icon, mode, children }) {
+  const pastel = mode === 'pastel';
+  return (
+    <div role="status" style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '10px 12px', borderRadius: 'var(--radius-md)', background: pastel ? fillVar(tone) : 'var(--' + tone + '-subtle)', boxShadow: pastel ? 'none' : 'inset 0 0 0 0.5px var(--' + tone + '-line)' }}>
+      <span style={{ color: pastel ? 'var(--on-' + tone + ')' : textVar(tone), display: 'flex', marginTop: 2 }}><Icon name={icon} /></span>
+      <span className="du-small" style={{ color: pastel ? 'var(--on-' + tone + ')' : 'var(--ink)' }}>{children}</span>
+    </div>
+  );
+}
+function Pill({ tone, mode, children }) {
+  const pastel = mode === 'pastel';
+  return <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, height: 24, padding: '0 10px', borderRadius: 'var(--radius-full)', font: '500 12px/16px var(--font-body)', background: pastel ? fillVar(tone) : 'var(--' + tone + '-subtle)', color: pastel ? 'var(--on-' + tone + ')' : textVar(tone), boxShadow: pastel ? 'none' : 'inset 0 0 0 0.5px var(--' + tone + '-line)' }}>{children}</span>;
+}
+function Sample({ theme, combo }) {
+  const vars = BUILT[combo.id][theme].vars;
+  const [on, setOn] = React.useState(true);
+  const [tab, setTab] = React.useState('review');
+  const [r, setR] = React.useState('week');
+  return (
+    <div data-theme={theme} style={{ ...vars, flex: '1 1 300px', minWidth: 0, background: 'var(--bg)', borderRadius: 'var(--radius-xl)', boxShadow: 'var(--ring-hairline)', padding: 20, display: 'flex', flexDirection: 'column', gap: 14, color: 'var(--ink)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}><Mark size={22} /><span className="du-caption">{theme}</span></div>
+      <Tabs value={tab} onChange={setTab} items={[{ value: 'review', label: 'Review' }, { value: 'notes', label: 'Notes' }]} />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <span className="du-caption">Week of Sep 21</span>
+        <span style={{ font: '500 20px/26px var(--font-title)', letterSpacing: '-0.01em' }}>Weekly review</span>
+        <span className="du-small" style={{ color: 'var(--ink-secondary)' }}>You linked 34 ideas this week. <a href="#" onClick={e => e.preventDefault()}>See which ones</a></span>
+      </div>
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+        <Pill tone="accent" mode={combo.style}>Saved</Pill><Pill tone="warning" mode={combo.style}>Needs review</Pill><Pill tone="danger" mode={combo.style}>Failed</Pill><Pill tone="info" mode={combo.style}>Updated</Pill>
+      </div>
+      <div style={{ background: 'var(--surface)', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--ring-hairline)', padding: 14, display: 'grid', gridTemplateColumns: 'minmax(0,1fr) auto', gap: 16, alignItems: 'end' }}>
+        <BarChart height={72} animate={false} showValues="highlight" data={[18, 22, 19, 27, 24, 31, 46]} />
+        <Stat size="sm" label="Linked" value="34" emphasis trend={[12, 14, 17, 19, 22, 27, 34]} />
+      </div>
+      <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}><Switch checked={on} onChange={setOn} label="Weekly email" /><Checkbox defaultChecked label="Include links" /><Tag size="sm" selected>Memory</Tag></div>
+      <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}><Radio name={'r' + combo.id + theme} value="week" checked={r === 'week'} onChange={setR} label="Weekly" /><Radio name={'r' + combo.id + theme} value="month" checked={r === 'month'} onChange={setR} label="Monthly" /></div>
+      <Note tone="accent" icon="circle-check" mode={combo.style}>Review saved. Your notes are synced.</Note>
+      <Note tone="warning" icon="cloud-off" mode={combo.style}>2 notes haven’t synced. They’ll retry when you’re back online.</Note>
+      <Note tone="info" icon="info" mode={combo.style}>Patterns update every Sunday morning.</Note>
+      <Note tone="danger" icon="circle-alert" mode={combo.style}>That didn’t save. Check your connection and try again.</Note>
+      <Input size="sm" label="Share with" defaultValue="derek@" error="Add the rest of the address so replies reach you." />
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}><Button variant="primary" size="sm">Save review</Button><Button size="sm">Preview</Button><Button size="sm" variant="ghost" style={{ marginLeft: 'auto', color: 'var(--danger)' }}>Discard</Button></div>
+    </div>
+  );
+}
+function Swatches({ combo }) {
+  const b = BUILT[combo.id];
+  const fams = ['accent', 'danger', 'warning', 'info'];
+  const names = { accent: 'Accent · success', danger: 'Danger', warning: 'Warning', info: 'Info' };
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '48px repeat(4, minmax(0,1fr))', gap: 4, alignItems: 'center' }}>
+      <span></span>{fams.map(f => <span key={f} className="du-caption">{names[f]}</span>)}
+      {['light', 'dark'].map(th => (
+        <React.Fragment key={th}>
+          <span className="du-caption">{th[0].toUpperCase() + th.slice(1)}</span>
+          {fams.map(f => { const r = b[th].info[f].raw; const css = c => 'oklch(' + c[0] + ' ' + c[1] + ' ' + c[2] + ')'; return (
+            <div key={f} data-theme={th} title={'fill ' + css(r.fill) + '\ntext ' + css(r.text)} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', height: 28, borderRadius: 'var(--radius-xs)', overflow: 'hidden', background: 'var(--bg)', boxShadow: 'var(--ring-hairline)' }}>
+              <div style={{ background: css(r.fill) }}></div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: css(r.text), font: '500 13px/1 var(--font-title)' }}>Aa</div>
+            </div>); })}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+function Explore() {
+  const [id, setId] = React.useState(() => localStorage.getItem('du-combo') || '1');
+  const [show, setShow] = React.useState('Both');
+  const combo = COMBOS.find(c => c.id === id) || COMBOS[0];
+  const pick = v => { setId(v); localStorage.setItem('du-combo', v); };
+  React.useEffect(() => {
+    const onKey = e => {
+      if (e.target && e.target.closest && e.target.closest('input, textarea, select')) return;
+      const i = COMBOS.findIndex(c => c.id === id);
+      if (e.key === 'ArrowRight') pick(COMBOS[(i + 1) % COMBOS.length].id);
+      else if (e.key === 'ArrowLeft') pick(COMBOS[(i - 1 + COMBOS.length) % COMBOS.length].id);
+      else { const n = parseInt(e.key, 10); if (n >= 1 && n <= COMBOS.length) pick(COMBOS[n - 1].id); }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [id]);
+  return (
+    <div style={{ maxWidth: 1440, margin: '0 auto', padding: '24px 32px 32px', display: 'flex', flexDirection: 'column', gap: 20 }}>
+      <header className="outcome" data-screen-label="Outcome">
+        <h1>Color combinations <span className="st done">Resolved, applied to tokens</span></h1>
+        <dt>Question</dt><dd>An accent shade and status colors that match each other, with the right pop against the true-gray backgrounds, in light and dark. The accent also stands for success.</dd>
+        <dt>Explored</dt><dd>Three rounds. 1: six directions, including matched pastels, bright pastels, earthy, quiet status, and pastel light with tonal dark. The pastel and matched directions were dropped as too washed out, the earthy and quiet ones as too desaturated. 2: higher-contrast directions (deep moss, AAA, mid-tone fill). 3: the seven variations below, with one accent color driving every component.</dd>
+        <dt>Outcome</dt><dd><p><strong>1 Deep moss</strong> is applied to <code>tokens/colors.css</code>. <code>--accent</code> and <code>--accent-strong</code> are the same color: OKLCH 0.48 0.085 138 in light with white text (6.1:1), 0.70 0.08 138 in dark with dark text (6.7:1). It fills the primary button, switch, checks, radio dot, tab underline, the key chart point, the mark’s last dot and success. Status colors are unchanged.</p></dd>
+        <dt>Related</dt><dd>Resting cards now use a hairline plus a soft shadow (<code>--shadow-rest</code>), decided alongside this.</dd>
+        <div className="legend">Key <span className="verdict v-win">Winner</span><span className="verdict v-out">Not chosen</span></div>
+      </header>
+      <header style={{ position: 'sticky', top: 0, zIndex: 5, background: 'var(--sunk)', padding: '8px 0 12px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 16, boxShadow: 'inset 0 -0.5px 0 var(--line)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+          <span style={{ font: '500 16px/20px var(--font-title)', letterSpacing: '-0.01em' }}>Color combinations</span>
+          <SegmentedControl options={COMBOS.map((c, i) => ({ value: c.id, label: c.id + '  ' + c.name + (verdictOf(c.id) === 'win' ? '  · Winner' : '') }))} value={combo.id} onChange={pick} />
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <span className="du-caption">← → or 1–{COMBOS.length} to switch</span>
+          <SegmentedControl size="sm" options={['Light', 'Dark', 'Both']} value={show} onChange={setShow} />
+        </div>
+      </header>
+      <section data-screen-label={combo.id + ' ' + combo.name} style={{ display: 'flex', flexWrap: 'wrap', gap: 32, padding: 28, background: 'var(--bg)', borderRadius: 'var(--radius-xl)', boxShadow: verdictOf(combo.id) === 'win' ? '0 0 0 2px var(--accent-strong)' : 'var(--ring-hairline)' }}>
+        <div style={{ flex: '1 1 260px', maxWidth: 320, display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}><h2 style={{ margin: 0, font: '500 22px/28px var(--font-title)', letterSpacing: '-0.01em' }}>{combo.name}</h2><span className={'verdict v-' + verdictOf(combo.id)}>{VL[verdictOf(combo.id)]}</span></div>
+          <p className="du-small" style={{ margin: 0, color: 'var(--ink-secondary)', textWrap: 'pretty', minHeight: 80 }}>{combo.note}</p>
+          <Swatches combo={combo} />
+          <span className="du-caption">Hover a swatch for OKLCH. One accent color for the button, switch, checks, radio, tab, chart, the mark’s last dot and success. Text tones solved to {combo.accent.textTarget || 5.8}:1 on the card in both themes.</span>
+        </div>
+        <div style={{ flex: '999 1 620px', minWidth: 0, display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+          {show !== 'Dark' && <Sample key={'l'} theme="light" combo={combo} />}
+          {show !== 'Light' && <Sample key={'d'} theme="dark" combo={combo} />}
+        </div>
+      </section>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Explore />);
+</script></body></html>

@@ -1,0 +1,39 @@
+<!-- @dsCard group="Motion" viewport="700x300" name="Motion in action" subtitle="Live components. Press, swap, slide, stretch, enter and exit." -->
+<!DOCTYPE html>
+<html data-theme="light"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;padding:24px;background:var(--bg);color:var(--ink)}.g{display:grid;grid-template-columns:150px minmax(0,1fr);row-gap:14px;column-gap:16px;align-items:center}.cap{font:var(--font-caption);color:var(--ink-tertiary)}</style>
+</head><body data-theme="light"><div id="root"></div>
+<script type="text/babel">
+const { Button, IconButton, Icon, IconSwap, Switch, SegmentedControl, Menu, Toast, Tooltip } = window.DerekUrbanDesignSystem_3bae67;
+function MotionDemo() {
+  const [copied, setCopied] = React.useState(false);
+  const [range, setRange] = React.useState('Week');
+  const [on, setOn] = React.useState(true);
+  const [toasts, setToasts] = React.useState([]);
+  const n = React.useRef(0), t = React.useRef(null);
+  const copy = () => { setCopied(true); clearTimeout(t.current); t.current = setTimeout(() => setCopied(false), 1400); };
+  const add = () => { const id = ++n.current; setToasts(ts => [...ts.slice(-1), id]); };
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 280px', gap: 24 }}>
+      <div className="g">
+        <span className="cap">Press · 0.96</span><div><Button variant="primary">Save draft</Button></div>
+        <span className="cap">Icon swap</span><div><Button onClick={copy} iconStart={<IconSwap active={copied} from={<Icon name="link" />} to={<Icon name="check" />} />}>{copied ? 'Copied' : 'Copy link'}</Button></div>
+        <span className="cap">Sliding indicator</span><div><SegmentedControl options={['Week', 'Month', 'Year']} value={range} onChange={setRange} /></div>
+        <span className="cap">Stretch while held</span><div><Switch checked={on} onChange={setOn} label="Notice patterns" /></div>
+        <span className="cap">Grow from trigger</span><div style={{ display: 'flex', gap: 8 }}><Menu trigger={<Button size="sm" iconEnd={<Icon name="chevron-down" />}>Sort</Button>} items={[{ label: 'Most recent', selected: true }, { label: 'Most revisited' }, { label: 'Alphabetical' }]} /><Tooltip content="Pin to top"><IconButton label="Pin"><Icon name="pin" /></IconButton></Tooltip><Tooltip content="Share"><IconButton label="Share"><Icon name="share" /></IconButton></Tooltip></div>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <div><Button size="sm" onClick={add}>Show toast</Button></div>
+        {toasts.map(id => <Toast key={id} tone="success" title="Draft saved" description="Synced a moment ago." onDismiss={() => setToasts(ts => ts.filter(x => x !== id))} style={{ width: 280 }} />)}
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<MotionDemo />);
+</script></body></html>

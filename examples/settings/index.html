@@ -1,0 +1,90 @@
+<!-- @dsCard group="Examples" viewport="1280x820" name="Settings" subtitle="Notes-tool settings: forms, appearance, notifications and a destructive confirm. Components and tokens only." -->
+<!DOCTYPE html>
+<html data-theme="light"><head><meta charset="utf-8"><title>Settings · sample</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>html,body{margin:0;min-height:100%}body{background:var(--bg);color:var(--ink)}a{color:var(--accent-text)}a:hover{color:var(--accent-text)}</style>
+</head><body data-theme="light"><div id="root"></div>
+<script type="text/babel">
+const { Mark, Button, Icon, Input, Select, Switch, Checkbox, Radio, SegmentedControl, Card, Avatar, Dialog, Toast } = window.DerekUrbanDesignSystem_3bae67;
+const NAV = [['account', 'Account', 'user'], ['appearance', 'Appearance', 'sun-moon'], ['patterns', 'Patterns', 'waypoints'], ['notifications', 'Notifications', 'bell'], ['data', 'Your data', 'database']];
+
+function Row({ title, hint, children }) {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '240px minmax(0,1fr)', gap: 32, padding: '20px 0', boxShadow: 'inset 0 -0.5px 0 var(--line)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}><span className="du-label">{title}</span>{hint && <span className="du-caption" style={{ textWrap: 'pretty' }}>{hint}</span>}</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 440 }}>{children}</div>
+    </div>
+  );
+}
+
+function Settings() {
+  const [section, setSection] = React.useState('account');
+  const [theme, setTheme] = React.useState('Light');
+  const [density, setDensity] = React.useState('comfortable');
+  const [weekly, setWeekly] = React.useState(true);
+  const [sync, setSync] = React.useState(true);
+  const [grouping, setGrouping] = React.useState(true);
+  const [confirm, setConfirm] = React.useState(false);
+  const [toasts, setToasts] = React.useState([]);
+  const n = React.useRef(0);
+  const toast = (title, tone = 'success') => { const id = ++n.current; setToasts(ts => [...ts.slice(-1), { id, title, tone }]); };
+  React.useEffect(() => { const t = theme === 'Dark' ? 'dark' : theme === 'System' ? 'system' : 'light'; document.body.setAttribute('data-theme', t); document.documentElement.setAttribute('data-theme', t); }, [theme]);
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '248px minmax(0,1fr)', minHeight: '100vh' }}>
+      <aside style={{ display: 'flex', flexDirection: 'column', gap: 24, padding: '24px 16px', boxShadow: 'inset -0.5px 0 0 var(--line)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '0 8px' }}><Mark size={28} /><span style={{ font: '500 16px/20px var(--font-title)', letterSpacing: '-0.01em' }}>Settings</span></div>
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {NAV.map(([id, label, icon]) => (
+            <Button key={id} variant="ghost" size="sm" static fullWidth iconStart={<Icon name={icon} />} onClick={() => setSection(id)} aria-current={section === id ? 'page' : undefined}
+              style={{ justifyContent: 'flex-start', ...(section === id ? { background: 'var(--sunk)' } : { color: 'var(--ink-secondary)' }) }}>{label}</Button>
+          ))}
+        </nav>
+      </aside>
+      <main style={{ padding: '40px 48px', maxWidth: 880 }}>
+        <h1 className="du-title" style={{ margin: '0 0 4px' }}>Settings</h1>
+        <p className="du-small" style={{ margin: '0 0 24px', color: 'var(--ink-secondary)' }}>Changes save as you make them.</p>
+        <Row title="Profile" hint="Shown on shared patterns.">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}><Avatar name="Derek Urban" size={48} /><Button size="sm">Change photo</Button></div>
+          <Input label="Name" defaultValue="Derek Urban" />
+          <Input label="Email" defaultValue="derek@example.com" hint="Used for sign-in and the weekly review." />
+        </Row>
+        <Row title="Appearance" hint="System follows your device.">
+          <SegmentedControl options={['Light', 'Dark', 'System']} value={theme} onChange={setTheme} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }} role="radiogroup" aria-label="Density">
+            <Radio name="density" value="comfortable" checked={density === 'comfortable'} onChange={setDensity} label="Comfortable" description="More space between notes." />
+            <Radio name="density" value="compact" checked={density === 'compact'} onChange={setDensity} label="Compact" description="More notes on screen." />
+          </div>
+        </Row>
+        <Row title="Patterns" hint="How notes are grouped.">
+          <Switch checked={grouping} onChange={v => { setGrouping(v); toast(v ? 'Grouping turned on' : 'Grouping turned off', 'neutral'); }} label="Group notes by theme" description="Recomputed every Sunday morning." />
+          <Select label="Minimum group size" defaultValue="3" options={[{ value: '2', label: '2 notes' }, { value: '3', label: '3 notes' }, { value: '5', label: '5 notes' }]} />
+          <Checkbox defaultChecked label="Leave new groups unnamed" description="Name a group yourself once it has earned one." />
+        </Row>
+        <Row title="Notifications">
+          <Switch checked={weekly} onChange={setWeekly} label="Weekly review" description="A short summary of what you returned to." />
+          <Switch checked={sync} onChange={setSync} label="Sync problems" description="Only when a note fails to sync." />
+        </Row>
+        <Row title="Your data" hint="Everything you wrote, as Markdown files.">
+          <div style={{ display: 'flex', gap: 8 }}><Button variant="primary" iconStart={<Icon name="download" />} onClick={() => toast('Export started. You’ll get an email when it’s ready.')}>Export notes</Button></div>
+          <Card variant="sunk" padding="sm" style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 8 }}>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}><span className="du-label">Delete account</span><span className="du-caption">Removes every note and pattern. This can’t be undone.</span></div>
+            <Button variant="danger" size="sm" onClick={() => setConfirm(true)}>Delete account</Button>
+          </Card>
+        </Row>
+      </main>
+      <Dialog open={confirm} onClose={() => setConfirm(false)} title="Delete your account?"
+        description="This removes 318 notes and 14 patterns. Export first if you want a copy."
+        actions={<><Button variant="ghost" onClick={() => setConfirm(false)}>Keep account</Button><Button variant="danger" onClick={() => { setConfirm(false); toast('Account scheduled for deletion', 'danger'); }}>Delete account</Button></>} />
+      <div style={{ position: 'fixed', right: 24, bottom: 24, display: 'flex', flexDirection: 'column', gap: 8, zIndex: 40 }}>
+        {toasts.map(t => <Toast key={t.id} tone={t.tone} title={t.title} onDismiss={() => setToasts(ts => ts.filter(x => x.id !== t.id))} />)}
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Settings />);
+</script></body></html>

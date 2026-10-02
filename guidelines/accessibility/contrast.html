@@ -1,0 +1,17 @@
+<!-- @dsCard group="Accessibility" viewport="700x560" name="Contrast pairs" subtitle="WCAG ratios for each text pair, computed live in both themes. Dark is tuned to match light." -->
+<!DOCTYPE html>
+<html data-theme="light"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>body{margin:0;padding:24px;background:var(--bg);color:var(--ink)}.cap{font:var(--font-caption);color:var(--ink-tertiary);font-variant-numeric:tabular-nums}.lab{font:var(--font-label);color:var(--ink)}.r{display:grid;grid-template-columns:minmax(0,1fr) 120px 120px;gap:16px;align-items:center;padding:8px 0;box-shadow:inset 0 -0.5px 0 var(--line)}.hd{box-shadow:inset 0 -0.5px 0 var(--line-strong);padding-top:0}.chip{display:flex;align-items:center;gap:8px;height:28px;padding:0 10px;border-radius:var(--radius-sm);font:500 13px/16px var(--font-body);font-variant-numeric:tabular-nums;box-shadow:var(--ring-hairline)}</style>
+</head><body data-theme="light"><div class="r hd"><span class="cap">Pair</span><span class="cap">Light</span><span class="cap">Dark</span></div><div id="c"></div>
+<script>
+const pairs=[['ink','bg','Body text'],['ink-secondary','bg','Supporting text'],['ink-tertiary','surface','Captions on cards'],['ink-tertiary','sunk','Captions in wells'],['accent-text','surface','Links and selected labels'],['on-accent','accent','Primary button label'],['danger','surface','Error text'],['warning','surface','Warning text'],['info','surface','Info text'],['ink','warning-subtle','Message on a warning note']];
+const cv=document.createElement('canvas');cv.width=cv.height=1;const cx=cv.getContext('2d',{willReadFrequently:true});
+const probe=t=>{const d=document.createElement('div');d.setAttribute('data-theme',t);d.hidden=true;document.body.appendChild(d);return getComputedStyle(d);};
+const cs={light:probe('light'),dark:probe('dark')};
+const rgb=c=>{cx.clearRect(0,0,1,1);cx.fillStyle=c;cx.fillRect(0,0,1,1);return [...cx.getImageData(0,0,1,1).data].slice(0,3).map(x=>x/255);};
+const Y=c=>{const [r,g,b]=rgb(c).map(v=>v<=0.04045?v/12.92:((v+0.055)/1.055)**2.4);return 0.2126*r+0.7152*g+0.0722*b;};
+const ratio=(a,b)=>{const [h,l]=[Y(a),Y(b)].sort((x,y)=>y-x);return (h+0.05)/(l+0.05);};
+const cell=(th,f,b)=>{const s=cs[th],fg=s.getPropertyValue('--'+f).trim(),bg=s.getPropertyValue('--'+b).trim(),r=ratio(fg,bg);return '<div data-theme="'+th+'" class="chip" style="background:'+bg+';color:'+fg+'">'+r.toFixed(2)+'<span style="font-weight:400;opacity:.9">'+(r>=7?'AAA':r>=4.5?'AA':'—')+'</span></div>';};
+document.getElementById('c').innerHTML=pairs.map(([f,b,n])=>'<div class="r"><div style="display:flex;flex-direction:column;gap:2px"><span class="lab">'+n+'</span><span class="cap">--'+f+' on --'+b+'</span></div>'+cell('light',f,b)+cell('dark',f,b)+'</div>').join('');
+</script></body></html>

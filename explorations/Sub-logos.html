@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html data-theme="light"><head><meta charset="utf-8">
+<meta name="design_doc_mode" content="canvas">
+<title>Sub-logos and site logo</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+body{margin:0;background:transparent}
+a{color:var(--accent-text)}a:hover{color:var(--ink)}
+section{position:absolute;left:0;top:0;padding:48px;display:grid;grid-template-columns:repeat(4,400px);gap:32px}
+.opt{background:var(--bg);border-radius:18px;box-shadow:0 0 0 1px var(--line);overflow:hidden;display:flex;flex-direction:column}
+.hd{display:flex;align-items:baseline;gap:10px;padding:20px 22px 6px}
+.badge{font:var(--font-label);color:var(--ink-secondary);background:var(--sunk);border-radius:6px;padding:4px 8px}
+.name{font:var(--font-subheading);letter-spacing:var(--tracking-subheading);color:var(--ink)}
+.desc{font:var(--font-small);color:var(--ink-secondary);padding:0 22px 18px;text-wrap:pretty;min-height:66px}
+.pair{display:grid;grid-template-columns:1fr 1fr}
+.pane{position:relative;height:200px;display:flex;align-items:center;justify-content:center}
+.pane.lt{background:var(--surface)}.pane.dk{background:#141414}
+.pane>svg{width:112px;height:112px}
+.sm{position:absolute;left:12px;bottom:12px;display:flex;gap:10px;align-items:flex-end}
+.sm svg{display:block}
+.pane>svg.wide{width:172px;height:auto}
+.pane>svg path{transform-box:view-box}
+#turn5 .opt:hover .pane>svg path.sq,#turn5.play .pane>svg path.sq{animation:k-draw2 1200ms cubic-bezier(.45,.1,.4,1) 120ms both}
+#turn5 .opt:hover .pane>svg .bl,#turn5.play .pane>svg .bl{animation:k-in var(--duration-slow) var(--ease-settle) both}
+#turn5 .opt:hover .pane>svg .ul,#turn5.play .pane>svg .ul{animation:k-wipe 460ms cubic-bezier(.3,.6,.2,1) 1420ms both}
+#turn5 .opt:hover .pane>svg .ul.rtl,#turn5.play .pane>svg .ul.rtl{animation-name:k-wipeR}
+#turn5 .opt:hover .pane>svg .br,#turn5.play .pane>svg .br{animation:k-close 520ms var(--ease-settle) 1800ms both}
+@keyframes k-draw2{0%{stroke-dasharray:1 1;stroke-dashoffset:1}99.9%{stroke-dasharray:1 1;stroke-dashoffset:0}100%{stroke-dasharray:none;stroke-dashoffset:0}}
+@keyframes k-wipeR{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0 0 0 0)}}
+#turn4 .opt:hover .pane>svg path.sq,#turn4.play .pane>svg path.sq{animation:k-draw2 1400ms cubic-bezier(.45,.1,.4,1) 120ms both}
+#turn4 .opt:hover .pane>svg .bl,#turn4.play .pane>svg .bl{animation:k-in var(--duration-slow) var(--ease-settle) both}
+#turn4 .opt:hover .pane>svg .br,#turn4.play .pane>svg .br{animation:k-close 520ms var(--ease-settle) 1450ms both}
+#turn4 .opt:hover .pane>svg .seg,#turn4.play .pane>svg .seg{animation:k-seg 80ms linear both}
+@keyframes k-seg{from{opacity:0}to{opacity:1}}
+.opt:hover .pane>svg .sqb{animation:k-wipe 900ms var(--ease-in-out) 120ms both}
+@keyframes k-wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.opt:hover .pane>svg text.sq{animation:k-fade 600ms var(--ease-out) 200ms both}
+@keyframes k-fade{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:none}}
+.opt:hover .pane>svg path.sq{stroke-dasharray:1;animation:k-draw 900ms var(--ease-in-out) 120ms both}
+.opt:hover .pane>svg .bl{animation:k-in var(--duration-slow) var(--ease-settle) both}
+.opt:hover .pane>svg .br{animation:k-close 520ms var(--ease-settle) 900ms both}
+@keyframes k-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes k-in{from{transform:translateX(-8px);opacity:0}to{transform:none;opacity:1}}
+@keyframes k-close{0%{transform:translateX(10px);stroke-opacity:.3}60%{transform:translateX(-1.5px)}100%{transform:none;stroke-opacity:1}}
+@media (prefers-reduced-motion:reduce){.pane>svg *{animation:none!important}}
+.outcome{position:absolute;left:48px;top:48px;width:1120px;box-sizing:border-box;background:var(--bg);border-radius:18px;box-shadow:0 0 0 1px var(--line);padding:28px 32px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px 32px;font:var(--font-body);color:var(--ink)}
+.outcome h1{grid-column:1/-1;margin:0;font:var(--font-heading);letter-spacing:var(--tracking-heading);display:flex;align-items:center;gap:12px}
+.outcome .st{font:var(--font-label);border-radius:6px;padding:4px 10px;background:var(--sunk);color:var(--ink-secondary)}
+.outcome .st.done{background:var(--accent-subtle,var(--sunk));color:var(--accent-text)}
+.outcome dt{font:var(--font-label);color:var(--ink-tertiary);padding-top:2px}
+.outcome dd{margin:0;text-wrap:pretty;max-width:72ch}
+.outcome dd p{margin:0 0 6px}.outcome code{font-size:.92em}
+.opt{position:relative}
+.opt>.verdict{position:absolute;top:18px;right:18px;z-index:2;font:var(--font-label);border-radius:999px;padding:4px 11px;border:1px solid;white-space:nowrap}
+.v-win{background:var(--accent-subtle);color:var(--accent-text);border-color:var(--accent-line)}
+.v-fwd{background:var(--warning-subtle);color:var(--warning);border-color:var(--warning-line)}
+.v-draft{background:var(--info-subtle);color:var(--info);border-color:var(--info-line,var(--line))}
+.v-out{background:var(--danger-subtle);color:var(--danger);border-color:var(--danger-line)}
+.opt.is-win{box-shadow:0 0 0 2px var(--accent-strong)}
+.opt.is-out .pane,.opt.is-out .big,.opt.is-out .marks{opacity:.55}
+.opt .hd{padding-right:150px}
+.outcome .legend{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;align-items:center;font:var(--font-caption);color:var(--ink-tertiary)}
+.outcome .legend .verdict{position:static;font:var(--font-label);border-radius:999px;padding:3px 10px;border:1px solid}
+</style>
+</head><body>
+<header class="outcome" data-screen-label="Outcome"><h1>Sub-logos and site logo <span class="st done">Site logo shipped</span> <span class="st">App sub-logos in draft</span></h1>
+<dt>Question</dt><dd>Sub-logos for each app and a logo for the personal website, all built on the default logo’s brackets.</dd>
+<dt>Explored</dt><dd>Five rounds, newest at the top. 5: “du” with a separate brush underline. 4: single-stroke “du” that writes itself in. 3: cursive DU. 2: site logo directions (cursive DU chosen). 1: 12 app sub-logos.</dd>
+<dt>Outcome</dt><dd><p><a href="#5a">5a Fading stroke</a> is locked as the <strong>Site logo</strong>: a single-stroke cursive “du” with a rounded brush underline, heavy on the left and fading to the right. Files are <code>assets/logos/site-logo-on-light.svg</code>, <code>site-logo-on-dark.svg</code> and <code>site-logo-mono.svg</code>. It has a “Site logo” card in the Brand section and a readme entry.</p><p>The app sub-logos (round 1) are drafts. Three match the sample portfolio projects; the other nine are placeholders.</p></dd>
+<dt>Open</dt><dd>The real list of apps, so the sub-logos can be redrawn and saved to the system. The site logo is weak at 16px; it may need a simpler favicon.</dd>
+<div class="legend">Key <span class="verdict v-win">Winner</span><span class="verdict v-fwd">Led forward</span><span class="verdict v-draft">Draft</span><span class="verdict v-out">Not chosen</span></div>
+</header>
+<section id="turn5" class="play" style="top:580px"></section>
+<section id="turn4" style="top:1820px"></section>
+<section id="turn3" style="top:3060px"></section>
+<section id="turn2" style="top:4300px"></section>
+<section id="turn1" style="top:5540px"></section>
+<script>
+const T = { light: { ink: '#1b1b1b', acc: '#456938' }, dark: { ink: '#ebebeb', acc: '#84a479' } };
+const BL = 'M28 18 L18 18 L18 82 L28 82', BR = 'M72 18 L82 18 L82 82 L72 82';
+const p = (d, c, w, cls) => `<path class="${cls}"${cls === 'sq' ? ' pathLength="1"' : ''} d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"></path>`;
+// Every glyph sits in the same box as the scribble (x 31–69, y 26–74) and uses the same 5.5 monoline.
+const APPS = [
+  { id: '0', name: 'Default', desc: 'The default logo, for reference. Every sub-logo keeps these brackets and replaces only the scribble.', g: ['M31 60 C35 26 45 74 50 46 C55 22 62 70 69 40'] },
+  { id: '1a', name: 'Notes', desc: 'The notes tool that notices patterns. Three lines of writing, the last one trailing off.', g: ['M33 38 L67 38', 'M33 50 L63 50', 'M33 62 C40 58 46 66 52 62'] },
+  { id: '1b', name: 'Habits', desc: 'The habit study. A loop that almost closes: a routine, repeated.', g: ['M62 40 A15 15 0 1 0 64 56', 'M62 32 L62 40 L54 40'] },
+  { id: '1c', name: 'Agents', desc: 'Agents that explain themselves. A spark for the AI, with its reasoning drawn as a line beneath.', g: ['M50 30 L50 50', 'M41 35 L59 45', 'M59 35 L41 45', 'M36 64 C44 60 52 68 64 62'] },
+  { id: '1d', name: 'Journal', desc: 'A reflective writing app. A crescent moon: end-of-day thinking.', g: ['M58 30 A20 20 0 1 0 64 62 A15 15 0 1 1 58 30 Z'] },
+  { id: '1e', name: 'Focus', desc: 'A focus timer. A circle not yet closed, the time still left.', g: ['M50 32 A18 18 0 1 1 32 50', 'M50 50 L50 40'] },
+  { id: '1f', name: 'Mood', desc: 'A mood tracker. One line that dips and recovers over a week.', g: ['M32 44 C38 44 40 62 46 60 C52 58 52 40 58 42 C63 44 64 52 68 50'] },
+  { id: '1g', name: 'Reading', desc: 'A reading log. An open book drawn in two strokes.', g: ['M50 38 C44 33 37 33 32 36 L32 64 C37 61 44 61 50 66 C56 61 63 61 68 64 L68 36 C63 33 56 33 50 38 Z', 'M50 38 L50 66'] },
+  { id: '1h', name: 'Budget', desc: 'A spending tracker. A line that wobbles, then trends up.', g: ['M32 62 L40 56 L46 60 L54 46 L60 50 L68 34', 'M60 34 L68 34 L68 42'] },
+  { id: '1i', name: 'Search', desc: 'Search across everything you’ve saved. A loupe, slightly tilted.', g: ['M46 32 A13 13 0 1 1 45.9 32 Z', 'M55 55 L66 66'] },
+  { id: '1j', name: 'Terminal', desc: 'A command-line tool. The prompt and a cursor, waiting for input.', g: ['M34 38 L44 48 L34 58', 'M50 60 L66 60'] },
+  { id: '1k', name: 'Conversations', desc: 'A chat or interview tool. One speech bubble, slightly hand-drawn.', g: ['M34 36 C34 32 36 30 40 30 L62 30 C66 30 68 32 68 36 L68 52 C68 56 66 58 62 58 L46 58 L38 66 L39 58 C35 58 34 56 34 52 Z'] },
+  { id: '1l', name: 'Voice', desc: 'Voice notes. A few bars of a waveform, all different heights.', g: ['M34 46 L34 54', 'M42 36 L42 64', 'M50 42 L50 58', 'M58 30 L58 70', 'M66 44 L66 56'] }
+];
+const TXT = (s, x, y, size, extra = '') => ({ text: `<text x="${x}" y="${y}" font-family="Albert Sans, sans-serif" font-weight="500" font-size="${size}" letter-spacing="-0.02em"${extra}>${s}</text>` });
+const SITE = [
+  { id: '2a', name: 'Cursive d', desc: 'A lowercase d in one handwritten stroke: the bowl, the stem, a small flick out.', g: ['M55 50 C50 43 38 45 37 56 C36 66 50 68 55 56 C57 48 57 34 56 28 C55 40 55 54 57 64 C58 68 62 68 66 62'] },
+  { id: '2b', name: 'Monoline D', desc: 'A capital D at the scribble’s weight. The most direct initial.', g: ['M39 30 L48 30 C67 30 67 70 48 70 L39 70 Z'] },
+  { id: '2c', name: 'du', desc: 'Your initials joined in one cursive stroke, like the start of a signature.', g: ['M45 52 C41 45 32 48 32 58 C32 66 42 66 45 58 C46 50 46 38 45 30 C44 42 44 56 46 64 C48 68 52 66 53 58 L54 50 C54 62 56 68 60 66 C64 64 64 56 64 50 C64 60 65 66 69 64'] },
+  { id: '2d', name: 'DU', desc: 'Both initials as monoline capitals. Built rather than written.', g: ['M32 32 L37 32 C50 32 50 68 37 68 L32 68 Z', 'M55 32 L55 55 C55 72 68 72 68 55 L68 32'] },
+  { id: '2e', name: 'hi', desc: 'A handwritten hello. Friendly for a personal site, and still a scribble at heart.', g: ['M33 66 C38 52 42 36 40 30 C37 26 34 40 36 70 C38 58 42 50 46 52 C50 54 46 66 52 66 C56 66 57 58 58 52 C58 60 58 66 64 64', 'M58.5 41 L58.5 41.5'] },
+  { id: '2f', name: 'Signature', desc: 'The scribble with an underline beneath it, the way you’d sign your work.', g: ['M31 52 C35 28 43 64 48 44 C52 28 57 58 62 44 C64 38 66 40 69 38', 'M33 66 C44 62 56 64 67 61'] },
+  { id: '2g', name: 'Still writing', desc: 'A shorter scribble with a text cursor after it. The portfolio as work in progress.', g: ['M31 58 C34 30 42 70 46 46 C49 30 54 62 57 46', 'M65 32 L65 68'] },
+  { id: '2h', name: 'See the work', desc: 'The scribble ending in an arrow up and to the right. An invitation to look.', g: ['M31 62 C35 30 44 72 49 48 C53 30 58 50 66 34', 'M58 33 L66 34 L66 42'] },
+  { id: '2i', name: 'Typeset du', desc: 'Your initials set in Albert Sans between the brackets. Quiet, legible at any size.', ...TXT('du', 50, 61, 30, ' text-anchor="middle"') },
+  { id: '2j', name: 'Typeset D', desc: 'A single Albert Sans D. The bracket does the branding; the letter just names it.', ...TXT('D', 50, 65, 42, ' text-anchor="middle"') },
+  { id: '2k', name: 'Lockup', desc: 'The default logo beside your name in Albert Sans. For the site header.', wide: true, vb: '10 10 270 80', g: ['M31 60 C35 26 45 74 50 46 C55 22 62 70 69 40'], ...TXT('Derek Urban', 100, 60, 28) },
+  { id: '2l', name: 'Bracketed name', desc: 'Your name itself held in the brackets, in place of the scribble. The site as the thing being framed.', wide: true, vb: '10 10 196 80', br: 'M176 18 L186 18 L186 82 L176 82', ...TXT('derek urban', 33, 59, 26, ' textLength="134" lengthAdjust="spacing"') }
+];
+const DU = [
+  { id: '3a', name: 'Joined du', desc: 'Lowercase d and u in one stroke, retracing the d’s stem like real handwriting.',
+    g: ['M47 50 C43 44 33 46 33 56 C33 65 43 66 47 58 C48 50 48 36 47 28 C46 38 46 54 48 62 C49 66 53 67 55 63 C56 60 56 54 56 50 C56 60 57 66 61 66 C64 66 65 60 65 50 C65 60 66 66 69 64'] },
+  { id: '3b', name: 'Looped d', desc: 'The d’s ascender drawn as an open loop, the way most people write it fast.',
+    g: ['M47 50 C43 44 33 46 33 56 C33 65 43 66 47 58 C50 48 54 33 51 28 C48 24 44 28 45 36 C45 46 46 55 48 62 C48 66 53 67 55 63 C56 60 56 54 56 50 C56 60 57 66 61 66 C64 66 65 60 65 50 C65 60 66 66 69 64'] },
+  { id: '3c', name: 'Capital D, u', desc: 'A cursive capital D with its looped foot, and a lowercase u alongside.',
+    g: ['M39 32 C39 44 39 58 37 66 C36 71 31 70 32 66 C33 63 38 65 42 66 C51 68 54 58 54 48 C54 37 48 30 39 30 C34 30 31 33 32 37', 'M57 50 C57 60 58 66 62 66 C65 66 66 60 66 50 C66 60 67 66 69 64'] },
+  { id: '3d', name: 'Capital D, U', desc: 'Both capitals in cursive: a looped D and a U with a lead-in hook.',
+    g: ['M39 32 C39 44 39 58 37 66 C36 71 31 70 32 66 C33 63 38 65 42 66 C51 68 54 58 54 48 C54 37 48 30 39 30 C34 30 31 33 32 37', 'M55 34 C57 31 59 33 59 40 C59 52 58 62 62 65 C66 67 68 60 68 50 L68 32 C68 46 68 60 70 66'] },
+  { id: '3e', name: 'Ligature', desc: 'One continuous stroke: the D’s bowl swings round and becomes the U.',
+    g: ['M38 30 C38 44 38 58 37 68 C47 70 52 62 52 50 C52 38 46 30 34 32 C44 30 54 34 56 42 C57 52 56 64 61 66 C66 68 67 58 67 48 L67 34 C67 48 67 60 70 66'] },
+  { id: '3f', name: 'Rising tail', desc: 'Joined du whose exit stroke climbs into the green bracket, like the default scribble.',
+    g: ['M47 50 C43 44 33 46 33 56 C33 65 43 66 47 58 C48 50 48 36 47 28 C46 38 46 54 48 62 C49 66 53 67 55 63 C56 60 56 54 56 50 C56 60 57 66 61 66 C64 66 65 60 65 50 C65 58 66 50 69 38'] },
+  { id: '3g', name: 'Slanted', desc: 'Joined du at a forward lean. Faster, more like a quick signature.',
+    g: ['M49 50 C46 44 36 46 34 56 C32 65 42 66 46 58 C49 50 52 36 53 28 C50 38 47 54 48 62 C49 66 53 67 55 63 C57 60 58 54 59 50 C57 60 57 66 61 66 C64 66 66 60 68 50 C66 60 66 66 69 64'] },
+  { id: '3h', name: 'Loose', desc: 'Bigger, rounder letters with more room between strokes. More gesture, less precision.',
+    g: ['M46 48 C40 40 30 46 31 58 C32 68 44 68 46 56 C47 46 48 32 46 26 C44 38 44 56 47 64 C49 69 53 68 55 62 C56 57 56 52 56 46 C56 60 57 68 62 68 C66 68 67 58 67 46 C67 60 67 68 70 66'] },
+  { id: '3i', name: 'Compact', desc: 'Small, tight du centred in the brackets. Reads cleanly at icon sizes.',
+    g: ['M48 52 C45 48 38 49 38 56 C38 62 45 63 48 58 C49 52 49 42 48 36 C47 44 47 54 49 60 C50 63 53 63 54 60 C55 57 55 54 55 52 C55 59 56 63 59 63 C61 63 62 59 62 52 C62 59 63 63 65 62'] },
+  { id: '3j', name: 'D into u', desc: 'A capital D whose looped foot runs straight on into a lowercase u. One stroke.',
+    g: ['M33 37 C32 33 35 30 40 30 C49 30 54 37 54 48 C54 58 48 66 40 66 C36 66 32 67 32 69 C33 71 38 69 40 66 C40 56 40 44 40 32 C40 48 40 60 44 66 C48 68 54 62 56 52 C56 62 58 66 61 66 C64 66 66 60 66 50 C66 60 67 66 70 64'] },
+  { id: '3k', name: 'Signature', desc: 'Joined du with a single underline swept beneath, the way you’d sign something.',
+    g: ['M47 46 C43 40 34 42 34 51 C34 59 43 60 47 53 C48 46 48 34 47 27 C46 36 46 50 48 57 C49 61 53 62 55 58 C56 55 56 50 56 46 C56 55 57 60 61 60 C64 60 65 55 65 46 C65 55 66 60 69 58', 'M33 69 C44 65 56 67 67 64'] },
+  { id: '3l', name: 'Brush', desc: 'Joined du drawn thick to thin, heavy where the pen lands and fine where it lifts.', brush: 'M47 50 C43 44 33 46 33 56 C33 65 43 66 47 58 C48 50 48 36 47 28 C46 38 46 54 48 62 C49 66 53 67 55 63 C56 60 56 54 56 50 C56 60 57 66 61 66 C64 66 65 60 65 50 C65 60 66 66 69 64' }
+];
+const CL = 'M47 50 C43 44 33 46 33 56 C33 65 43 66 47 58 C48 50 48 36 47 28 C46 38 46 54 48 62 C49 66 53 67 55 63 C56 60 56 54 56 50 C56 60 57 66 61 66 C64 66 65 60 65 50 C65 60 66 66 69 64';
+const DU2 = [
+  { id: '4a', name: 'Classic', desc: 'Bowl, up the stem, back down and straight into the u. How most people write it.', g: [CL] },
+  { id: '4b', name: 'Looped stem', desc: 'The stem rises as an open loop, so the pen never retraces itself.', g: ['M47 50 C43 44 33 46 33 56 C33 65 43 66 47 58 C50 48 54 33 51 28 C48 24 44 28 45 36 C45 46 46 55 48 62 C49 66 53 67 55 63 C56 60 56 54 56 50 C56 60 57 66 61 66 C64 66 65 60 65 50 C65 60 66 66 69 64'] },
+  { id: '4c', name: 'Hooked stem', desc: 'The stroke starts with a hook over the top of the stem, then drops into the bowl.', g: ['M37 31 C40 26 46 25 48 29 C49 36 48 50 48 62 C47 66 42 67 38 66 C33 64 32 56 35 51 C38 46 45 46 48 52 C48 56 48 60 49 63 C50 66 53 67 55 63 C56 60 56 54 56 50 C56 60 57 66 61 66 C64 66 65 60 65 50 C65 60 66 66 69 64'] },
+  { id: '4d', name: 'Rising exit', desc: 'The last stroke lifts up into the green bracket, echoing the default scribble.', g: ['M47 50 C43 44 33 46 33 56 C33 65 43 66 47 58 C48 50 48 36 47 28 C46 38 46 54 48 62 C49 66 53 67 55 63 C56 60 56 54 56 50 C56 60 57 66 61 66 C64 66 65 60 65 50 C65 58 66 50 69 38'] },
+  { id: '4e', name: 'Curl finish', desc: 'The u ends in a small curl, the flourish you add without thinking.', g: [CL + ' C72 62 73 56 70 54 C67 53 66 58 69 60'] },
+  { id: '4f', name: 'Signed', desc: 'After the u, the pen swings back under the word as one underline. A full signature in one stroke.', g: ['M47 46 C43 40 34 42 34 51 C34 59 43 60 47 53 C48 46 48 34 47 27 C46 36 46 50 48 57 C49 61 53 62 55 58 C56 55 56 50 56 46 C56 55 57 60 61 60 C64 60 65 55 65 46 C65 55 66 60 69 58 C73 60 71 67 62 67 C52 68 42 68 33 66'] },
+  { id: '4g', name: 'D into u', desc: 'A cursive capital D whose foot loop climbs the stem and runs on into a lowercase u.', g: ['M33 37 C32 33 35 30 40 30 C49 30 54 37 54 48 C54 58 48 66 40 66 C36 66 32 67 32 69 C33 71 38 69 40 66 C40 56 40 44 40 32 C40 48 40 60 44 66 C48 68 54 62 56 52 C56 62 58 66 61 66 C64 66 66 60 66 50 C66 60 67 66 70 64'] },
+  { id: '4h', name: 'D into U', desc: 'Both capitals: the D finishes at the top of its stem and swings over into the U.', g: ['M33 37 C32 33 35 30 40 30 C49 30 54 37 54 48 C54 58 48 66 40 66 C36 66 32 67 32 69 C33 71 38 69 40 66 C40 56 40 44 40 32 C44 27 56 27 57 34 C58 46 57 60 61 65 C65 68 68 60 68 50 L68 32 C68 46 68 60 70 66'] },
+  { id: '4i', name: 'Slanted', desc: 'The classic stroke at a forward lean. Quicker, more like a signature.', g: ['M49 50 C46 44 36 46 34 56 C32 65 42 66 46 58 C49 50 52 36 53 28 C50 38 47 54 48 62 C49 66 53 67 55 63 C57 60 58 54 59 50 C57 60 57 66 61 66 C64 66 66 60 68 50 C66 60 66 66 69 64'] },
+  { id: '4j', name: 'Loose', desc: 'Bigger, rounder letters with more air between the strokes.', g: ['M46 48 C40 40 30 46 31 58 C32 68 44 68 46 56 C47 46 48 32 46 26 C44 38 44 56 47 64 C49 69 53 68 55 62 C56 57 56 52 56 46 C56 60 57 68 62 68 C66 68 67 58 67 46 C67 60 67 68 70 66'] },
+  { id: '4k', name: 'Compact', desc: 'Small and tight in the middle of the brackets. Holds up best at icon sizes.', g: ['M48 52 C45 48 38 49 38 56 C38 62 45 63 48 58 C49 52 49 42 48 36 C47 44 47 54 49 60 C50 63 53 63 54 60 C55 57 55 54 55 52 C55 59 56 63 59 63 C61 63 62 59 62 52 C62 59 63 63 65 62'] },
+  { id: '4l', name: 'Brush', desc: 'The classic stroke with pen pressure: heavy where it starts, fine where it lifts.', brush: CL }
+];
+// Brush underline: a centreline y(t) over x0..x1 with width w(t), filled as one tapered shape.
+const brushShape = (x0, x1, y, w, n = 60) => {
+  // Tapered fill with round caps at both ends; width never drops below 1.6 so tips stay soft.
+  const P = [], N = [], T = [], W = [];
+  for (let i = 0; i <= n; i++) { const t = i / n; P.push([x0 + (x1 - x0) * t, y(t)]); }
+  for (let i = 0; i <= n; i++) { const p0 = P[Math.max(0, i - 1)], p1 = P[Math.min(n, i + 1)], dx = p1[0] - p0[0], dy = p1[1] - p0[1], L = Math.hypot(dx, dy) || 1; T.push([dx / L, dy / L]); N.push([-dy / L, dx / L]); W.push(Math.max(1.6, w(i / n)) / 2); }
+  const at = (i, s) => [P[i][0] + N[i][0] * W[i] * s, P[i][1] + N[i][1] * W[i] * s];
+  const cap = (i, dir) => { const out = []; for (let k = 1; k < 12; k++) { const f = Math.PI * k / 12, c = Math.cos(f), s = Math.sin(f); out.push([P[i][0] + W[i] * (dir * c * N[i][0] + dir * s * T[i][0]), P[i][1] + W[i] * (dir * c * N[i][1] + dir * s * T[i][1])]); } return out; };
+  const pts = []; for (let i = 0; i <= n; i++) pts.push(at(i, 1));
+  pts.push(...cap(n, 1)); for (let i = n; i >= 0; i--) pts.push(at(i, -1)); pts.push(...cap(0, -1));
+  return 'M' + pts.map(q => q[0].toFixed(2) + ' ' + q[1].toFixed(2)).join(' L') + ' Z';
+};
+const LET = 'M47 44 C43 38 34 40 34 49 C34 57 43 58 47 51 C48 44 48 32 47 25 C46 34 46 48 48 55 C49 59 53 60 55 56 C56 53 56 48 56 44 C56 53 57 58 61 58 C64 58 65 53 65 44 C65 53 66 58 69 56';
+const taper = (a, b, k = 1) => t => { const lo = 1.6; a = Math.max(a, lo); b = Math.max(b, lo); return a + (b - a) * (1 - Math.cos(Math.PI * Math.pow(t, k))) / 2; };
+const swell = (m, e = 1.6) => t => e + (m - e) * Math.sin(Math.PI * t);
+const SIG = [
+  { id: '5a', name: 'Fading stroke', desc: 'Heavy where the pen lands on the left, fading to a hairline on the right.', ul: brushShape(33, 68, t => 68 - 1.5 * t, taper(5, 0.6, 0.8)) },
+  { id: '5b', name: 'Landing stroke', desc: 'The reverse: a light start that lands heavy under the u, by the green bracket.', ul: brushShape(33, 68, t => 68.5 - 1 * t, taper(0.6, 4.8, 1.3)) },
+  { id: '5c', name: 'Swell', desc: 'Thin at both ends with a swell in the middle, on a gentle smile curve.', ul: brushShape(32, 68, t => 66 + 3 * Math.sin(Math.PI * t), swell(4.6)) },
+  { id: '5d', name: 'Rising', desc: 'Climbs to the right toward the green bracket, tapering as it goes.', ul: brushShape(33, 69, t => 71 - 7 * t, taper(4.6, 0.6, 0.9)) },
+  { id: '5e', name: 'Swoosh', desc: 'A slight dip then a lift, like a quick flick of the wrist.', ul: brushShape(32, 69, t => 67 + 3 * Math.sin(Math.PI * t * 1.25) - 4 * t * t, taper(4.4, 0.6, 0.8)) },
+  { id: '5f', name: 'Short', desc: 'A short stroke centred under the letters. Lighter presence, more about the letters.', ul: brushShape(39, 61, t => 67.5 - 0.6 * t, taper(4, 0.6, 0.9)) },
+  { id: '5g', name: 'Long', desc: 'Runs nearly bracket to bracket, so the underline frames the bottom of the mark.', ul: brushShape(26, 74, t => 69 - 1.4 * t, taper(4.6, 0.5, 0.75)) },
+  { id: '5h', name: 'Offset', desc: 'Starts under the d’s bowl and runs out past the u, like a signature trailing off.', ul: brushShape(36, 73, t => 67.5 - 0.5 * t + 0.6 * Math.sin(Math.PI * t), taper(4.6, 0.5, 0.8)) },
+  { id: '5i', name: 'Hairline', desc: 'A light, fine stroke with only a little pressure at the start.', ul: brushShape(33, 68, t => 68 - 1.2 * t, taper(2.8, 0.4, 0.8)) },
+  { id: '5j', name: 'Heavy', desc: 'More ink: the stroke reads almost as a base the letters stand on.', ul: brushShape(33, 68, t => 68.5 - 1.2 * t, taper(7, 0.8, 0.9)) },
+  { id: '5k', name: 'Flick', desc: 'Straight along the bottom, then a quick hooked lift at the end.', ul: brushShape(33, 70, t => t < 0.8 ? 68.5 : 68.5 - 30 * Math.pow(t - 0.8, 2), taper(4.4, 0.6, 0.9)) },
+  { id: '5l', name: 'Backhand', desc: 'Drawn right to left, heavy on the right, the way a left-to-right signature often finishes.', rtl: true, ul: brushShape(33, 68, t => 66.5 + 1.6 * t, taper(0.6, 4.8, 1.2)) }
+];
+const svg = (a, theme, size) => {
+  if (a.ul) { const { ink, acc } = T[theme]; return `<svg viewBox="10 10 80 80"${size ? ` width="${size}" height="${size}"` : ''} role="img" aria-label="${a.name} logo">${p(BL, ink, 6, 'bl')}${p(LET, ink, 4.5, 'sq')}<path class="ul${a.rtl ? ' rtl' : ''}" d="${a.ul}" fill="${ink}"></path>${p(BR, acc, 6, 'br')}</svg>`; }
+  if (a.brush) { const { ink, acc } = T[theme]; const tmp = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); const pe = document.createElementNS('http://www.w3.org/2000/svg', 'path'); pe.setAttribute('d', a.brush); tmp.appendChild(pe); document.body.appendChild(tmp); const L = pe.getTotalLength(), N = 90, pts = []; for (let i = 0; i <= N; i++) { const q = pe.getPointAtLength(L * i / N); pts.push([q.x, q.y]); } tmp.remove(); let s = ''; for (let i = 0; i < N; i++) s += `<path d="M${pts[i][0].toFixed(2)} ${pts[i][1].toFixed(2)} L${pts[i + 1][0].toFixed(2)} ${pts[i + 1][1].toFixed(2)}" stroke="${ink}" stroke-width="${(6.5 - 4.5 * i / N).toFixed(2)}" stroke-linecap="round" fill="none" class="seg" style="animation-delay:${120 + i * 15}ms"></path>`; return `<svg viewBox="10 10 80 80"${size ? ` width="${size}" height="${size}"` : ''} role="img" aria-label="${a.name} logo">${p(BL, ink, 6, 'bl')}<g class="sqb">${s}</g>${p(BR, acc, 6, 'br')}</svg>`; } if (a.text !== undefined || a.wide) { const { ink, acc } = T[theme]; const vb = a.vb || '10 10 80 80', [, , vw, vh] = vb.split(' ').map(Number); const wh = size ? ` width="${size * vw / vh}" height="${size}"` : ''; const txt = a.text ? a.text.replace('<text ', `<text class="sq" fill="${ink}" `) : ''; return `<svg viewBox="${vb}"${wh}${a.wide && !size ? ' class="wide"' : ''} role="img" aria-label="${a.name} logo">${p(BL, ink, 6, 'bl')}${(a.g || []).map(d => p(d, ink, a.sw || 5.5, 'sq')).join('')}${txt}${p(a.br || BR, acc, 6, 'br')}</svg>`; } return svg0(a, theme, size); };
+const svg0 = (a, theme, size) => { const { ink, acc } = T[theme]; return `<svg viewBox="10 10 80 80"${size ? ` width="${size}" height="${size}"` : ''} role="img" aria-label="${a.name} logo">${p(BL, ink, 6, 'bl')}${a.g.map(d => p(d, ink, a.sw || 5.5, 'sq')).join('')}${p(BR, acc, 6, 'br')}</svg>`; };
+const cardS = a => `
+<div class="opt" id="${a.id === '0' ? 'default' : a.id}" data-screen-label="${a.id} ${a.name}">
+<div class="hd">${a.id === '0' ? '' : `<span class="badge">${a.id}</span>`}<span class="name">${a.name}</span></div>
+<div class="desc">${a.desc}</div>
+<div class="pair"><div class="pane lt" data-theme="light">${svg(a, 'light')}<div class="sm">${svg(a, 'light', 32)}${svg(a, 'light', 16)}</div></div><div class="pane dk" data-theme="dark">${svg(a, 'dark')}<div class="sm">${svg(a, 'dark', 32)}${svg(a, 'dark', 16)}</div></div></div>
+</div>`;
+DU.forEach(a => { a.sw = 4.5; });
+document.getElementById('turn5').innerHTML = SIG.map(cardS).join('');
+document.querySelectorAll('#turn5 .hd').forEach(el => el.insertAdjacentHTML('beforeend', '<span style="margin-left:auto;font:var(--font-caption);color:var(--ink-tertiary)">Hover to replay</span>'));
+setTimeout(() => document.getElementById('turn5').classList.remove('play'), 2600);
+DU2.forEach(a => { a.sw = 4.5; });
+document.getElementById('turn4').innerHTML = DU2.map(cardS).join('');
+document.querySelectorAll('#turn4 .hd').forEach(el => el.insertAdjacentHTML('beforeend', '<span style="margin-left:auto;font:var(--font-caption);color:var(--ink-tertiary)">Hover to replay</span>'));
+document.getElementById('turn3').innerHTML = DU.map(cardS).join('');
+document.getElementById('turn2').innerHTML = SITE.map(cardS).join('');
+document.getElementById('turn1').innerHTML = APPS.map(cardS).join('');
+</script>
+
+<script>
+(() => {
+  const V = {"5a":"win","2c":"fwd","3a":"fwd","4a":"fwd","4f":"fwd","default":null}, L = { win: 'Winner', fwd: 'Led forward', draft: 'Draft', out: 'Not chosen' };
+  const apply = () => document.querySelectorAll('section .opt[id]').forEach(el => {
+    if (el.querySelector(':scope>.verdict')) return;
+    const id = el.id, v = id in V ? V[id] : ({"1":"draft"}[id[0]] ?? 'out');
+    if (!v) return;
+    el.classList.add('is-' + v);
+    el.insertAdjacentHTML('afterbegin', '<span class="verdict v-' + v + '">' + L[v] + '</span>');
+  });
+  apply(); setTimeout(apply, 300);
+})();
+</script>
+</body></html>

@@ -1,0 +1,73 @@
+<!-- @dsCard group="Color" viewport="960x740" name="Color in use" subtitle="The same screen in light and dark, with the rules that decide every color on it. Toggle the theme." -->
+<!DOCTYPE html>
+<html data-theme="light"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;padding:24px;background:var(--bg);color:var(--ink)}a{color:var(--accent-text);text-decoration-color:var(--accent-line);text-underline-offset:3px}a:hover{text-decoration-color:currentColor}</style>
+</head><body data-theme="light"><div id="root"></div>
+<script type="text/babel">
+const { Button, Icon, Input, Tag, SegmentedControl, Toast } = window.DerekUrbanDesignSystem_3bae67;
+const RULES = [
+  ['Neutrals do most of the work', 'Page, surfaces, lines and text are true gray.'],
+  ['One accent color, one primary action', 'The same green fills the primary button and marks the key data point, checks and selection. Only one button per view gets the fill.'],
+  ['Accent marks selection and success', 'Accent text for links and selected labels; accent-subtle behind selected items. Success is the accent; there is no second green.'],
+  ['Status colors mean status', 'Danger for errors and destructive actions, warning for what needs attention soon, info for neutral context. Never decoration.'],
+  ['Status at low volume', 'Subtle fill, matching line, colored icon. The message itself stays in ink.'],
+  ['Never color alone', 'Every colored state also has an icon, a label or a position.'],
+];
+function Note({ tone, icon, children }) {
+  return (
+    <div role="status" style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '10px 12px', borderRadius: 'var(--radius-md)', background: 'var(--' + tone + '-subtle)', boxShadow: 'inset 0 0 0 0.5px var(--' + tone + '-line)' }}>
+      <span style={{ color: 'var(--' + tone + ')', display: 'flex', marginTop: 2 }}><Icon name={icon} /></span>
+      <span className="du-small" style={{ color: 'var(--ink)' }}>{children}</span>
+    </div>
+  );
+}
+function Sample({ theme }) {
+  const bars = [18, 22, 19, 27, 24, 31, 46];
+  return (
+    <div data-theme={theme} style={{ flex: 1, minWidth: 0, background: 'var(--bg)', borderRadius: 'var(--radius-xl)', boxShadow: 'var(--ring-hairline)', padding: 20, display: 'flex', flexDirection: 'column', gap: 16, color: 'var(--ink)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <span className="du-caption">Week of Sep 21 · {theme}</span>
+        <span className="du-heading" style={{ font: '500 20px/26px var(--font-title)', letterSpacing: '-0.01em' }}>Weekly review</span>
+        <span className="du-small" style={{ color: 'var(--ink-secondary)' }}>You linked 34 ideas this week. <a href="#">See which ones</a></span>
+      </div>
+      <div style={{ background: 'var(--surface)', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--ring-hairline)', padding: 14, display: 'flex', alignItems: 'flex-end', gap: 5, height: 72 }}>
+        {bars.map((v, i) => <div key={i} style={{ flex: 1, height: (v / 46 * 100) + '%', borderRadius: '3px 3px 0 0', background: i === bars.length - 1 ? 'var(--accent-strong)' : 'var(--data-neutral)' }}></div>)}
+      </div>
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}><Tag size="sm" selected>Memory</Tag><Tag size="sm">Attention</Tag><Tag size="sm">Habits</Tag></div>
+      <Note tone="warning" icon="cloud-off">2 notes haven’t synced. They’ll retry when you’re back online.</Note>
+      <Note tone="info" icon="info">Patterns update every Sunday morning.</Note>
+      <Input size="sm" label="Share with" defaultValue="derek@" error="Add the rest of the address so replies reach you." />
+      <div style={{ display: 'flex', gap: 8 }}><Button variant="primary" size="sm">Save review</Button><Button size="sm">Preview</Button><Button size="sm" variant="ghost" style={{ marginLeft: 'auto', color: 'var(--danger)' }}>Discard</Button></div>
+    </div>
+  );
+}
+function ColorInUse() {
+  const [mode, setMode] = React.useState('Both');
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 260px', gap: 28 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div><SegmentedControl size="sm" options={['Light', 'Dark', 'Both']} value={mode} onChange={setMode} /></div>
+        <div style={{ display: 'flex', gap: 16 }}>
+          {mode !== 'Dark' && <Sample theme="light" />}
+          {mode !== 'Light' && <Sample theme="dark" />}
+        </div>
+      </div>
+      <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 14, paddingTop: 44 }}>
+        {RULES.map(([t, d], i) => (
+          <li key={t} style={{ display: 'grid', gridTemplateColumns: '20px minmax(0,1fr)', gap: 8 }}>
+            <span className="du-caption" style={{ fontVariantNumeric: 'tabular-nums', paddingTop: 1 }}>{i + 1}</span>
+            <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}><span className="du-label">{t}</span><span className="du-caption" style={{ color: 'var(--ink-secondary)', textWrap: 'pretty' }}>{d}</span></span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<ColorInUse />);
+</script></body></html>

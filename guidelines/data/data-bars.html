@@ -1,0 +1,16 @@
+<!-- @dsCard group="Data" viewport="700x290" name="Bar chart" subtitle="Neutral bars, one accent where it resolves. Hover for values; click to replay." -->
+<!DOCTYPE html>
+<html data-theme="light"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;padding:24px;background:var(--bg);color:var(--ink)}.cap{font:var(--font-caption);color:var(--ink-tertiary)}.lab{font:var(--font-label);color:var(--ink)}.hd{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px}.hd>div{display:flex;flex-direction:column;gap:2px}</style>
+</head><body data-theme="light"><div id="root"></div>
+<script type="text/babel">
+const { BarChart, LineChart, Sparkline, Stat, SegmentedControl } = window.DerekUrbanDesignSystem_3bae67;
+function useReplay(){const [k,setK]=React.useState(0);return [k,()=>setK(k+1)];}
+function Card(){const [k,r]=useReplay();return (<div><div className="hd"><div><span className="lab">Notes revisited</span><span className="cap">Per month, 2026</span></div><span className="cap">Peak in December</span></div><div onClick={r} style={{cursor:'pointer'}}><BarChart replayKey={k} data={[18,22,19,27,24,31,26,29,34,30,37,46]} labels={['Jan','','Mar','','May','','Jul','','Sep','','Nov','']} label="Notes revisited per month, peak in December" /></div></div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Card />);
+</script></body></html>

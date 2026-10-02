@@ -1,0 +1,8 @@
+<!-- @dsCard group="Data" viewport="700x300" name="Clusters" subtitle="Scattered notes settle into groups; the resolved group is green. Click to replay." -->
+<!DOCTYPE html>
+<html data-theme="light"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>body{margin:0;padding:24px;background:var(--bg);color:var(--ink)}.cap{font:var(--font-caption);color:var(--ink-tertiary);font-variant-numeric:tabular-nums}.lab{font:var(--font-label);color:var(--ink)}.hd{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px}.hd>div{display:flex;flex-direction:column;gap:2px}</style>
+<script src="data-viz.js"></script>
+</head><body data-theme="light"><div class="hd"><div><span class="lab">Notes by theme</span><span class="cap">Grouped by similarity</span></div><span class="cap">212 notes, 4 themes</span></div><div id="c"></div>
+<script>const r=DUViz.clusters(document.getElementById('c'),{groups:[{x:90,y:70,r:44,n:34,label:'Attention'},{x:250,y:95,r:38,n:26,label:'Habits'},{x:415,y:62,r:50,n:42,accent:true,label:'Memory'},{x:575,y:100,r:34,n:20,label:'Sleep'}]});DUViz.replayOnClick(document.getElementById('c'),r);</script></body></html>

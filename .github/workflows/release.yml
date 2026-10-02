@@ -5,7 +5,6 @@ on:
 permissions:
   contents: write
   pull-requests: write
-  id-token: write
 jobs:
   release-please:
     runs-on: ubuntu-latest
@@ -25,9 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          registry-url: https://registry.npmjs.org
+        with: { node-version: 22 }
       - run: npm install --no-audit --no-fund
       - run: npm run build
       - run: npm pack
@@ -35,8 +32,3 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release upload ${{ needs.release-please.outputs.tag }} derekurban-design-system-*.tgz --clobber
-      - name: Publish to npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        if: env.NODE_AUTH_TOKEN != ''
-        run: npm publish --provenance --access public

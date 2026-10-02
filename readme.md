@@ -12,10 +12,10 @@ This repository is the source of truth, and it is distributed from GitHub only (
 
 <!-- x-release-please-start-version -->
 ```sh
-npm install github:derekurban/design-system#v0.1.0
+npm install github:derekurban/design-system#v0.1.1
 ```
 
-npm fetches the tagged commit and builds `dist/` during install. The dependency appears in `package.json` as `"@derekurban/design-system": "github:derekurban/design-system#v0.1.0"`. Every release on the [releases page](https://github.com/derekurban/design-system/releases) also has the built package attached as a `.tgz`, which installs without building: `npm install https://github.com/derekurban/design-system/releases/download/v0.1.0/derekurban-design-system-0.1.0.tgz`.
+npm fetches the tagged commit and builds `dist/` during install. The dependency appears in `package.json` as `"@derekurban/design-system": "github:derekurban/design-system#v0.1.1"`. Every release on the [releases page](https://github.com/derekurban/design-system/releases) also has the built package attached as a `.tgz`, which installs without building: `npm install https://github.com/derekurban/design-system/releases/download/v0.1.0/derekurban-design-system-0.1.0.tgz`.
 
 ```js
 import '@derekurban/design-system/styles.css'; // tokens, fonts, base styles
@@ -31,7 +31,7 @@ import { Button, Card, Mark } from '@derekurban/design-system';
 Without a build step, link the stylesheet for a tag straight from GitHub through jsDelivr:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/derekurban/design-system@v0.1.0/styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/derekurban/design-system@v0.1.1/styles.css">
 ```
 <!-- x-release-please-end -->
 

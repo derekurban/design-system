@@ -1,31 +1,53 @@
 {
   "name": "@derekurban/design-system",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Derek Urban's design system: tokens, fonts, logos and React components.",
   "license": "UNLICENSED",
-  "repository": { "type": "git", "url": "git+https://github.com/derekurban/design-system.git" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/derekurban/design-system.git"
+  },
   "homepage": "https://github.com/derekurban/design-system#readme",
   "bugs": "https://github.com/derekurban/design-system/issues",
   "type": "module",
-  "sideEffects": ["*.css"],
+  "sideEffects": [
+    "*.css"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./src/index.d.ts",
   "style": "./dist/styles.css",
   "exports": {
-    ".": { "types": "./src/index.d.ts", "import": "./dist/index.js" },
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./dist/index.js"
+    },
     "./styles.css": "./dist/styles.css",
     "./tokens/*": "./tokens/*",
     "./assets/*": "./assets/*",
     "./package.json": "./package.json"
   },
-  "files": ["dist", "src", "components/**/*.d.ts", "components/**/*.prompt.md", "tokens", "assets", "readme.md", "SKILL.md"],
+  "files": [
+    "dist",
+    "src",
+    "components/**/*.d.ts",
+    "components/**/*.prompt.md",
+    "tokens",
+    "assets",
+    "readme.md",
+    "SKILL.md"
+  ],
   "scripts": {
     "build": "node scripts/build.mjs",
     "check": "node scripts/check.mjs",
     "prepare": "npm run build"
   },
-  "peerDependencies": { "react": ">=18", "react-dom": ">=18" },
-  "devDependencies": { "esbuild": "^0.24.0" }
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
 }

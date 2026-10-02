@@ -47,7 +47,7 @@ Open any card or example `.html` file through a local server (`npx serve .`) to 
 
 ## Releasing
 
-Release-please watches `main`. After each merge it updates a PR titled `chore(main): release x.y.z` with the version bump (`package.json`, `.release-please-manifest.json`) and the new `CHANGELOG.md` entry, worked out from the PR titles since the last release. `docs:`, `chore:`, `refactor:` and `ci:` merges alone don't open one.
+Release-please watches `main`. After each merge it updates a PR titled `chore(main): release x.y.z` with the version bump (`package.json`, `.release-please-manifest.json` and the install pins in `readme.md`) and the new `CHANGELOG.md` entry, worked out from the PR titles since the last release. `docs:`, `chore:`, `refactor:` and `ci:` merges alone don't open one.
 
 When you want to ship, merge that PR. The Release workflow then tags `vX.Y.Z`, creates the GitHub release and attaches `derekurban-design-system-X.Y.Z.tgz`. Don't tag by hand or edit the version files yourself; to force a specific version, put `Release-As: X.Y.Z` in the body of a commit merged to `main`.
 

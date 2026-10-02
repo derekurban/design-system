@@ -22,8 +22,8 @@
   },
   "files": ["dist", "src", "components/**/*.d.ts", "components/**/*.prompt.md", "tokens", "assets", "readme.md", "SKILL.md"],
   "scripts": {
-    "build": "rm -rf dist && esbuild src/index.js --bundle --format=esm --target=es2019 --jsx=transform --loader:.js=jsx --external:react --external:react-dom --sourcemap --outfile=dist/index.js && esbuild styles.css --bundle --loader:.woff2=file --asset-names=fonts/[name] --outfile=dist/styles.css",
-    "check": "bash .github/scripts/check.sh",
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
     "prepare": "npm run build"
   },
   "peerDependencies": { "react": ">=18", "react-dom": ">=18" },
